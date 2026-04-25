@@ -73,5 +73,7 @@ jobs:
           name: ${{ steps.tag.outputs.tag }}
           generate_release_notes: true
           prerelease: ${{ inputs.prerelease == true }}
-          files: ${{ steps.pkg.outputs.xar }}
+          files: |
+            ${{ steps.pkg.outputs.xar }}
+            resources/js/menota-level-switcher.js
           fail_on_unmatched_files: true
