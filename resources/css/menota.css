@@ -1,0 +1,166 @@
+/* =====================================================================
+   menota.css — Stylesheet for MENOTA-rendered TEI Publisher output.
+   
+   Loads Junicode (MUFI-compatible) for facsimile and palaeographic
+   levels via the open Junicode web-font CDN. To use a locally bundled
+   font instead, replace the @font-face src URLs with local paths.
+   ===================================================================== */
+
+@font-face {
+    font-family: 'Junicode';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('Junicode'),
+         url('https://cdn.jsdelivr.net/npm/junicode-vf@2/Junicode-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Junicode';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: local('Junicode Italic'),
+         url('https://cdn.jsdelivr.net/npm/junicode-vf@2/Junicode-Italic.woff2') format('woff2');
+}
+
+/* ------------------------------------------------------------------ */
+/* Level wrappers                                                     */
+/* ------------------------------------------------------------------ */
+
+.menota-facs,
+.menota-pal {
+    font-family: 'Junicode', 'Andron Scriptor Web', 'Times New Roman', serif;
+    font-feature-settings: "hist" 1, "calt" 1;
+}
+
+.menota-dipl {
+    font-family: 'Junicode', 'Times New Roman', serif;
+}
+
+.menota-norm {
+    font-family: Georgia, 'Times New Roman', serif;
+}
+
+/* ------------------------------------------------------------------ */
+/* Word & punctuation spacing                                         */
+/*                                                                    */
+/* The challenge: TEI Publisher preserves the indentation whitespace  */
+/* from the source XML between <w> and its <me:*> child. So a tag    */
+/* like                                                               */
+/*     <w>                                                            */
+/*         <me:dipl>helgu</me:dipl>                                  */
+/*     </w>                                                           */
+/* becomes HTML that has whitespace text nodes before and after the  */
+/* inner span. Those collapse into an extra visible space, which then -*/
+/* causes spaces before commas and double spaces between words.       */
+/*                                                                    */
+/* The fix: zero out the font-size on the .menota-w and .menota-pc   */
+/* wrappers (so any direct text-node children, which is just the     */
+/* whitespace, collapse to zero width), then restore font-size on    */
+/* the inner level spans. Combined with our adjacent-sibling rule    */
+/* below, we get exactly one space between words and zero spaces     */
+/* before punctuation.                                                */
+/* ------------------------------------------------------------------ */
+
+.menota-w,
+.menota-pc {
+    font-size: 0;  /* collapses indentation whitespace from the source XML */
+}
+
+.menota-facs,
+.menota-dipl,
+.menota-norm,
+.menota-pal {
+    font-size: 1rem;  /* restore normal text size on the inner level span */
+}
+
+/* Space before any word that follows another word or punctuation. */
+.menota-w + .menota-w::before,
+.menota-pc + .menota-w::before {
+    content: " ";
+    font-size: 1rem;  /* the inserted space also needs visible size */
+}
+
+/* Punctuation gets no leading space - it hugs the previous element. */
+/* (No rule needed; default ::before is empty.)                      */
+
+/* ------------------------------------------------------------------ */
+/* Editorial expansions and abbreviation marks                        */
+/* ------------------------------------------------------------------ */
+
+.menota-ex {
+    font-style: italic;
+    color: #555;
+}
+
+.menota-am {
+    /* Abbreviation marks shown on facs level - keep as-is, but allow
+       distinguishing styling via a subtle colour cue. */
+    color: #663300;
+}
+
+/* ------------------------------------------------------------------ */
+/* Ligatures                                                          */
+/* ------------------------------------------------------------------ */
+
+.menota-lig {
+    font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1;
+}
+
+/* ------------------------------------------------------------------ */
+/* Breaks                                                             */
+/* ------------------------------------------------------------------ */
+
+.tei-pb {
+    display: block;
+    margin-top: 1em;
+    color: #888;
+    font-size: 0.85em;
+    font-style: italic;
+}
+
+.tei-pb::before {
+    content: "[page " attr(data-label) "]";
+}
+
+.tei-lb {
+    display: block;
+    color: #aaa;
+    font-size: 0.8em;
+}
+
+.tei-lb::before {
+    content: "[" attr(data-label) "] ";
+    margin-right: 0.5em;
+}
+
+.tei-cb {
+    display: block;
+    color: #888;
+    font-size: 0.85em;
+}
+
+.tei-cb::before {
+    content: "[col. " attr(data-label) "]";
+}
+
+/* ------------------------------------------------------------------ */
+/* MUFI / special character support                                  */
+/* ------------------------------------------------------------------ */
+
+/* Increase line-height on facs/pal to accommodate combining diacritics
+   common in Medieval Nordic transcription (superscript bars, dots,
+   r-rotunda variants, etc.) */
+.menota-facs,
+.menota-pal {
+    line-height: 1.8;
+}
+
+.menota-dipl {
+    line-height: 1.6;
+}
+
+.menota-norm {
+    line-height: 1.5;
+}
