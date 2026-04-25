@@ -1,0 +1,1140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?oxygen RNGSchema="https://www.menota.org/menotaP5.rng" type="xml"?>
+<?xml-model href="menota.odd"
+            type="application/xml"
+            schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!DOCTYPE TEI [
+    <!ENTITY % Menota_entities SYSTEM 'https://www.menota.org/menota-entities.txt'>
+%Menota_entities;
+]>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:me="http://www.menota.org/ns/1.0">
+
+	<teiHeader xml:lang="eng">
+        <fileDesc>
+            <titleStmt>
+                <title>AM 519 a 4to : Alexanders saga : A digital edition</title>
+             <editor>
+                 <name>
+                    <persName>
+                       <forename>Andrea</forename>
+                       <surname>de Leeuw van Weenen</surname>
+                    </persName>
+                    <orgName type="affiliation">University of Leiden and University of Greifswald</orgName>
+                 </name>
+             </editor>
+             <respStmt resp="annotation">
+                 <resp>Transcription, lemmatization, morphological encoding
+                          and conversion to Menotic XML</resp>
+                 <name xml:id="ALW">
+                    <persName>
+                       <forename>Andrea</forename>
+                       <surname>de Leeuw van Weenen</surname>
+                    </persName>
+                    <orgName type="affiliation">University of Leiden and University of Greifswald</orgName>
+                 </name>
+             </respStmt>
+            </titleStmt>
+            <editionStmt>
+             <edition n="1.0.5">Version 1.0.5, <date when="2018-01-14">14 January 2017</date>.</edition>
+            </editionStmt>
+            <extent n="46732">46732 words</extent>
+          <publicationStmt>
+   <distributor>Medieval Nordic Text Archive</distributor>
+   <idno type="Menota">Ms. 14</idno>
+   <date when="2007-03-06">6 March 2007</date>
+           <availability status="free">
+            <licence target="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</licence>
+            <p>Licence accepted by the editor Andrea de Leeuw van Weenen in a mail to Odd Einar Haugen 3 December 2019.</p>
+           </availability>
+</publicationStmt>
+            <sourceDesc>
+             <bibl facs="yes">Photographic colour facsimiles of the encoded part of the
+              manuscript from the Arnamagnæan Collection in Copenhagen.</bibl>
+                <msDesc>
+                    <msIdentifier>
+                        <country key="DK">Denmark</country>
+                        <settlement>Copenhagen</settlement>
+                        <repository>Den Arnamagnæanske Samling</repository>
+                        <idno>AM 519 a 4to</idno>
+                        <msName type="nickname" xml:lang="lat">Alexanders saga</msName>
+                    </msIdentifier>
+                	<msContents><p>The source is a copy of an anonymous translation from the
+                		Latin poem Alexandreis into Old Norse made probably around
+                		1260. The original translation is lost.
+                		The manuscript is dated to 1280.</p></msContents>
+                	<physDesc><p>See Ch. 2 of the printed edition</p>
+                    </physDesc>
+                 <history>
+                  <origin>
+                   <p>The manuscript has been written in <origPlace>Iceland</origPlace> in <origDate notBefore="1270" notAfter="1290">c. 1280</origDate>.</p> <!-- OEH 2020-11-06: This dating was added by me according to that of ONP -->
+                     <p>See Ch. 1 of the printed edition</p>
+                  </origin>
+                    </history>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+         <projectDesc>
+          <p>The manuscript has been transliterated, encoded and morphologically
+            analyzed using ALW's own conventions. The finalized version has
+            been converted to Menota XML version 2 beta as of <date>2007-02-01</date>
+          </p>
+         </projectDesc>
+         <editorialDecl>
+           <correction status="high">
+           <p>The text was proofread several times against the facsimile edition
+              and once against the manuscript.
+              It was also compared to Finnur Jónsson's edition in the
+              following way. The edition was scanned and with OCR transformed to
+              a text file, which was printed and proofread against the edition.
+              Abbreviations were reinstated and the resulting file was compared
+              to the original transliteration. As the relation between abbreviation
+              and expansion in FJ's edition is not one-to-one, various changes
+              to the abbreviations in the FJ file had to be made. A second
+              comparison between the ALW transliteration and the FJ file resulted
+              in a list of discrepancies, all of which were checked against the
+              manuscript. In as far as they were not due to different policies
+              about capitals almost all turned out to be errors in the FJ edition.
+              In 2005 Jón Helgason's own copy of the FJ edition turned up,
+              where JH has marked errors in the edition. A part from a single
+              accent I had already caught all of these.
+              In a few difficult to read passages the ALW reading differs from
+              that by FJ (who seems on the whole to follow Unger). All these
+              were doublechecked and confirmed by Jonna Louis Jensen and
+              Peter Springborg.
+              The text therefore should be, apart from accidental errors caused
+              by later manual handling of the files, as error free as humanly
+              possible.
+              The morphological analysis however may still contain errors
+              either by oversight or subjective interpretation.
+           </p>
+           </correction>
+                <normalization me:level="facs dipl norm">
+                    <p>This text has been encoded on three levels: facsimile, diplomatic and normalised.</p>
+                </normalization>
+                <interpretation me:lemmatized="completely" me:morphAnalyzed="completely">
+                    <p>The complete text has been lemmatised and morphologically analysed according to the rules specified in ch. 8 of the Menota Handbook, v. 2.0.</p>
+                </interpretation>
+         </editorialDecl>
+        </encodingDesc>
+        <profileDesc>
+            <langUsage>
+                <language ident="isl">Icelandic</language>
+            </langUsage>
+        </profileDesc>
+        <revisionDesc>
+
+         <change>
+          <date>2020-02-20</date>
+          <name>
+           <persName>Odd Einar Haugen</persName>
+           <orgName type="affiliation">University of Bergen</orgName>
+          </name>: Made a few consistency corrections of the me:msa name tokens</change>
+
+         <change>
+          <date>2020-02-17</date>
+          <name>Odd Einar Haugen</name>
+          <orgName type="affiliation">University of Bergen</orgName>: The 13 instances of the word “of” annotated as ”xPA” were changed to “xAV”;
+          these occurences were in the meaning of “too [much]”, “too [little]” and the like, and “of” should here be classified as an adverb, xAV.
+         </change>
+
+         <change>
+          <date>2019-12-04</date>
+          <name>Odd Einar Haugen</name>
+          <orgName type="affiliation">University of Bergen</orgName>: Changed the availability in the header
+          to “free” at the request of the editor; otherwise no changes to the file.
+         </change>
+
+         <change>
+          <date>2018-01-11</date>
+          <name>
+           <persName>Odd Einar Haugen</persName>
+           <orgName type="affiliation">University of Bergen</orgName>
+          </name>: (1) Changed “W” to “Þ” which for some reason occurred in the normalised name of “Þórr”;
+          (2) Finished replacing lower case letters with upper case letters after ".", ":", "?" and "!" on
+          the normalised level (as in other texts encoded on this level); (3) Made the file v. 1.0.5
+         </change>
+
+         <change>
+          <date>2017-12-28</date>
+          <name>
+           <persName>Odd Einar Haugen</persName>
+           <orgName type="affiliation">University of Bergen</orgName>
+          </name>: (1) Replaced "me:punct" elements with "pc" elements;
+          (2) Revised the encoding of hyphenation in the manuscript according to the new
+          guidelines in v. 3.0 of the handbook, ch. 5.5 Hyphenation; (3) Revised the encoding of
+          enclitics according to the new guidelines in v. 3.0 of the handbook, ch. 11.3.2.11 Enclitics;
+          (4) Began replacing lower case letters with upper case letters after ".", ":", "?" and "!" on
+          the normalised level (as in other texts encoded on this level) - so far approx. 10 % of the
+          text has been revised; (5) Made the file v. 1.0.4
+         </change>
+
+         <change>
+          <date>2016-02-21</date>
+          <name>
+           <persName>Odd Einar Haugen</persName>
+           <orgName type="affiliation">University of Bergen</orgName>
+          </name>: (1) Revised the "availability" element in the header with licence="restricted";
+          (2) Made the file v. 1.0.3
+         </change>
+
+         <change>
+          <date>2016-02-04</date>
+          <name>
+           <persName>Odd Einar Haugen</persName>
+           <orgName type="affiliation">University of Bergen</orgName>
+          </name>: (1) Added the attribute ed="ms" to all "lb" elements within words (in order to
+          facilitate display of hyphens in the corpus); (2) Made the file v. 1.0.2
+         </change>
+
+         <change>
+          <date>2016-01-12</date>
+          <name>
+           <persName>Odd Einar Haugen</persName>
+           <orgName type="affiliation">University of Bergen</orgName>
+          </name>: (1) Added the attribute ed="ms" to all "pb" and "lb" elements;
+          (2) Replaced all "expan" elements with "ex"; (3) Made the file v. 1.0.1
+         </change>
+
+         <change>
+          <date>2016.01.10</date>
+          <name>Odd Einar Haugen</name>: Removed comment about the missing entity "eogonsup",
+          since this has now been added to the Menota entity list</change>
+
+         <change><date>2009.01.21</date>
+        		<name>Tone Merete Bruvik</name>: added the correct attributes to the added w-element.</change>
+
+         <change>
+        		<date>2009.01.19</date>
+        		<name>Tone Merete Bruvik</name>: Converted into TEI P5, Menota 2.0 using RELAX NG as a schema.
+        		1. Most of the changes to the file are trivial, such as: using the namespace me: in menotic elements as
+        		me:facs, me: dipl, me:norm and me: punct, and using the namespace at the menotic attributes as well: me:msa
+		      2. I have added a header to the file.
+	         3. There was one opening w element missing in line 272776, that one is added.
+		      4. The initials were encoded like this:
+		      initial height="0" depth="5" colour="red"
+		      They have to be recoded, for instance using this encoding which I have done:
+		      hi rend="height=0 depth=5 colour=red"
+		      I have done that automatically, is that OK?
+		      5. There are two instances of an qq element which does not make sense to me, I have commented them out.
+		      6. Some entities changed: entity 'ur2' -> 'ur', 'ed' -> 'sem', eogonsup -> eogon
+		      7. New nick name added: Alexanders saga
+        	</change>
+
+        	<change>
+        		<date>2007.03.27</date>
+        		<name>Tone Merete Bruvik</name>: Made some changes to get the file welformed and valid: entity 'ur2' -> 'ur', 'ed' -> 'sem',
+        		and changed the use of element 'initial' into 'c' (character) with attributes values into rend.
+        	</change>
+
+        	<change>
+            <date>2007.03.23</date>
+            <name>Odd Einar Haugen</name>: Made a few changes to the header.
+           </change>
+
+       </revisionDesc>
+    </teiHeader>
+ <text xml:lang="isl">
+ <body>
+   <div type="book" n="1">
+     <p>
+<pb ed="ms" n="1v"/><lb ed="ms" n="1"/>
+<name type="person">
+<w lemma="darius" me:msa="xUA">
+	<me:facs><hi rend="height=0 depth=5 colour=red">D</hi>&aenl;rı&us;</me:facs>
+ <me:dipl><hi>D</hi>&aenl;rı<ex>uſ</ex></me:dipl>
+ <me:norm>Darius</me:norm>
+</w>
+</name>
+<w lemma="hafa" me:msa="xVB fF tPS mIN p3 nS vA">
+ <me:facs>heꝼ&er;</me:facs>
+ <me:dipl>heꝼ<ex>er</ex></me:dipl>
+ <me:norm>hefir</me:norm>
+</w>
+<w lemma="konungr" me:msa="xNC gM nS cN sI">
+ <me:facs>k&bar;gr</me:facs>
+ <me:dipl>k<ex>onun</ex>gr</me:dipl>
+ <me:norm>konungr</me:norm>
+</w>
+<w lemma="heita" me:msa="xVB fP tPT vA gN nS cA sI">
+ <me:facs>heıꞇıð</me:facs>
+ <me:dipl>heıꞇıð</me:dipl>
+ <me:norm>heitit</me:norm>
+</w>
+<pc>
+ <me:facs></me:facs>
+ <me:dipl></me:dipl>
+ <me:norm>,</me:norm>
+</pc>
+<w lemma="er" me:msa="xRP">
+ <me:facs>e&er;</me:facs>
+ <me:dipl>e<ex>r</ex></me:dipl>
+ <me:norm>er</me:norm>
+</w>
+<w lemma="ráða" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>reð</me:facs>
+ <me:dipl>reð</me:dipl>
+ <me:norm>réð</me:norm>
+</w>
+<w lemma="fyrir" me:msa="xAP yD">
+ <me:facs>ꝼyr&er;</me:facs>
+ <me:dipl>ꝼyr<ex>er</ex></me:dipl>
+ <me:norm>fyrir</me:norm>
+</w>
+<name type="place">
+<w lemma="serk-land" me:msa="xNC gN nS cD sI">
+ <me:facs>ſerklanꝺe</me:facs>
+ <me:dipl>ſerklanꝺe</me:dipl>
+ <me:norm>Serklandi</me:norm>
+</w>
+</name>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="hann" me:msa="xPE p3 gM nS cN">
+ <me:facs>h&bar;</me:facs>
+ <me:dipl>h<ex>ann</ex></me:dipl>
+ <me:norm>Hann</me:norm>
+</w>
+<w lemma="vera" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>var</me:facs>
+ <me:dipl>var</me:dipl>
+ <me:norm>var</me:norm>
+</w>
+<w lemma="á-gǽtr" me:msa="xAJ rP gM nS cN sI">
+ <me:facs>ageꞇr</me:facs>
+ <me:dipl>ageꞇr</me:dipl>
+ <me:norm>ágǽtr</me:norm>
+</w>
+<w lemma="konungr" me:msa="xNC gM nS cN sI">
+ <me:facs>k&bar;gr</me:facs>
+ <me:dipl>k<ex>onun</ex>gr</me:dipl>
+ <me:norm>konungr</me:norm>
+</w>
+<seg type="nb">
+<w lemma="í" me:msa="xAP yD">
+ <me:facs>ı</me:facs>
+ <me:dipl>ı</me:dipl>
+ <me:norm>í</me:norm>
+</w>
+<w lemma="sjá" me:msa="xDD gM nS cD">
+ <me:facs>þeſſum</me:facs>
+ <me:dipl>þeſſum</me:dipl>
+ <me:norm>þessum</me:norm>
+</w>
+</seg>
+<lb ed="ms" n="2"/>
+<w lemma="hluti" me:msa="xNC gM nS cD sI">
+ <me:facs>luꞇa</me:facs>
+ <me:dipl>luꞇa</me:dipl>
+ <me:norm>hluta</me:norm>
+</w>
+<w lemma="heimr" me:msa="xNC gM nS cG sD">
+ <me:facs>heımſınſ</me:facs>
+ <me:dipl>heımſınſ</me:dipl>
+ <me:norm>heimsins</me:norm>
+</w>
+<pc>
+ <me:facs></me:facs>
+ <me:dipl></me:dipl>
+ <me:norm>,</me:norm>
+</pc>
+<w lemma="er" me:msa="xRP">
+ <me:facs>er</me:facs>
+ <me:dipl>er</me:dipl>
+ <me:norm>er</me:norm>
+</w>
+<name type="place">
+<w lemma="asia" me:msa="xUA">
+ <me:facs>aſıa</me:facs>
+ <me:dipl>aſıa</me:dipl>
+ <me:norm>Asia</me:norm>
+</w>
+</name>
+<w lemma="heita" me:msa="xVB fF tPS mIN p3 nS vA">
+ <me:facs>heıꞇ&er;</me:facs>
+ <me:dipl>heıꞇ<ex>er</ex></me:dipl>
+ <me:norm>heitir</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="þá" me:msa="xAV rP">
+ <me:facs>þa</me:facs>
+ <me:dipl>þa</me:dipl>
+ <me:norm>Þá</me:norm>
+</w>
+<w lemma="hafa" me:msa="xVB fF tPS mIN p3 nS vA">
+ <me:facs>heꝼ&er;</me:facs>
+ <me:dipl>heꝼ<ex>er</ex></me:dipl>
+ <me:norm>hefir</me:norm>
+</w>
+<w lemma="engi" me:msa="xPI gM nS cN">
+ <me:facs>engı</me:facs>
+ <me:dipl>engı</me:dipl>
+ <me:norm>engi</me:norm>
+</w>
+<w lemma="konungr" me:msa="xNC gM nS cN sI">
+ <me:facs>k&bar;r</me:facs>
+ <me:dipl>k<ex>onung</ex>r</me:dipl>
+ <me:norm>konungr</me:norm>
+</w>
+<w lemma="vera" me:msa="xVB fP tPT vA gN nS cA sI">
+ <me:facs>ꝩ&er;ıꞇ</me:facs>
+ <me:dipl>ꝩ<ex>er</ex>ıꞇ</me:dipl>
+ <me:norm>verit</me:norm>
+</w>
+<w lemma="ríkr" me:msa="xAJ rC gM nS cN sD">
+ <me:facs>rıkarı</me:facs>
+ <me:dipl>rıkarı</me:dipl>
+ <me:norm>ríkari</me:norm>
+</w>
+<seg type="nb">
+<w lemma="í" me:msa="xAP yA">
+ <me:facs>ı</me:facs>
+ <me:dipl>ı</me:dipl>
+ <me:norm>í</me:norm>
+</w>
+<w lemma="sá" me:msa="xDD gM nS cA">
+ <me:facs>þa&nlrleg;&bar;</me:facs>
+ <me:dipl>þa&nlrleg;<ex>n</ex></me:dipl>
+ <me:norm>þann</me:norm>
+</w>
+</seg>
+<w lemma="tími" me:msa="xNC gM nS cA sI">
+ <me:facs>ꞇıma</me:facs>
+ <me:dipl>ꞇıma</me:dipl>
+ <me:norm>tíma</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="sǽti" me:msa="xNC gN nS cA sI">
+ <me:facs>Sæꞇı</me:facs>
+ <me:dipl>Sæꞇı</me:dipl>
+ <me:norm>Sǽti</me:norm>
+</w>
+<w lemma="sinn" me:msa="xDP gN nS cA">
+ <me:facs>ſıꞇꞇ</me:facs>
+ <me:dipl>ſıꞇꞇ</me:dipl>
+ <me:norm>sitt</me:norm>
+</w>
+<lb ed="ms" n="3"/>
+<w lemma="hafa" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>haꝼðı</me:facs>
+ <me:dipl>haꝼðı</me:dipl>
+ <me:norm>hafði</me:norm>
+</w>
+<w lemma="hann" me:msa="xPE p3 gM nS cN">
+ <me:facs>h&bar;</me:facs>
+ <me:dipl>h<ex>ann</ex></me:dipl>
+ <me:norm>hann</me:norm>
+</w>
+<w lemma="lengstum" me:msa="xAV rP">
+ <me:facs>lengſꞇu&bar;</me:facs>
+ <me:dipl>lengſꞇu<ex>m</ex></me:dipl>
+ <me:norm>lengstum</me:norm>
+</w>
+<seg type="nb">
+<w lemma="í" me:msa="xAP yD">
+ <me:facs>ı</me:facs>
+ <me:dipl>ı</me:dipl>
+ <me:norm>í</me:norm>
+</w>
+<name type="place">
+<w lemma="babylon" me:msa="xUA">
+ <me:facs>babılon</me:facs>
+ <me:dipl>babılon</me:dipl>
+ <me:norm>Babylon</me:norm>
+</w>
+</name>
+</seg>
+<pc>
+ <me:facs></me:facs>
+ <me:dipl></me:dipl>
+ <me:norm>,</me:norm>
+</pc>
+<w lemma="er" me:msa="xRP">
+ <me:facs>er</me:facs>
+ <me:dipl>er</me:dipl>
+ <me:norm>er</me:norm>
+</w>
+<w lemma="þá" me:msa="xAV rP">
+ <me:facs>þa</me:facs>
+ <me:dipl>þa</me:dipl>
+ <me:norm>þá</me:norm>
+</w>
+<w lemma="vera" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>ꝩar</me:facs>
+ <me:dipl>ꝩar</me:dipl>
+ <me:norm>var</me:norm>
+</w>
+<w lemma="hǫfuð-borg" me:msa="xNC gF nS cN sI">
+ <me:facs>hauꝼuð boꝛg</me:facs>
+ <me:dipl>hauꝼuð boꝛg</me:dipl>
+ <me:norm>hǫfuðborg</me:norm>
+</w>
+<w lemma="allr" me:msa="xAJ rP gN nS cG sI">
+ <me:facs>allz</me:facs>
+ <me:dipl>allz</me:dipl>
+ <me:norm>alls</me:norm>
+</w>
+<w lemma="ríki" me:msa="xNC gN nS cG sD">
+ <me:facs>rıkıſenſ</me:facs>
+ <me:dipl>rıkıſenſ</me:dipl>
+ <me:norm>ríkisins</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="en" me:msa="xCU">
+ <me:facs>en</me:facs>
+ <me:dipl>en</me:dipl>
+ <me:norm>En</me:norm>
+</w>
+<w lemma="hon" me:msa="xPE p3 gF nS cN">
+ <me:facs>hon</me:facs>
+ <me:dipl>hon</me:dipl>
+ <me:norm>hon</me:norm>
+</w>
+<w lemma="vera" me:msa="xVB fF tPS mIN p3 nS vA">
+ <me:facs>er</me:facs>
+ <me:dipl>er</me:dipl>
+ <me:norm>er</me:norm>
+</w>
+<lb ed="ms" n="4"/>
+<w lemma="nú" me:msa="xAV rP">
+ <me:facs>nu</me:facs>
+ <me:dipl>nu</me:dipl>
+ <me:norm>nú</me:norm>
+</w>
+<w lemma="eyða" me:msa="xVB fP tPT vA gF nS cN sI">
+ <me:facs>eyꝺꝺ</me:facs>
+ <me:dipl>eyꝺꝺ</me:dipl>
+ <me:norm>eydd</me:norm>
+</w>
+<w lemma="af" me:msa="xAP yD">
+ <me:facs>aꝼ</me:facs>
+ <me:dipl>aꝼ</me:dipl>
+ <me:norm>af</me:norm>
+</w>
+<w lemma="maðr" me:msa="xNC gM nP cD sI">
+ <me:facs>m&bar;m</me:facs>
+ <me:dipl>m<ex>ǫnnu</ex>m</me:dipl>
+ <me:norm>mǫnnum</me:norm>
+</w>
+<w lemma="fyrir" me:msa="xAP yA">
+ <me:facs>ꝼyr&er;</me:facs>
+ <me:dipl>ꝼyr<ex>er</ex></me:dipl>
+ <me:norm>fyrir</me:norm>
+</w>
+<w lemma="sǫk" me:msa="xNC gF nP cA sI">
+ <me:facs>ſac&er;</me:facs>
+ <me:dipl>ſac<ex>er</ex></me:dipl>
+ <me:norm>sakir</me:norm>
+</w>
+<w lemma="ormr" me:msa="xNC gM nP cG sI">
+ <me:facs>oꝛma</me:facs>
+ <me:dipl>oꝛma</me:dipl>
+ <me:norm>orma</me:norm>
+</w>
+<w lemma="ok" me:msa="xCU">
+ <me:facs>oc</me:facs>
+ <me:dipl>oc</me:dipl>
+ <me:norm>ok</me:norm>
+</w>
+<w lemma="annarr" me:msa="xNO gN nP cG sI">
+ <me:facs>an&bar;aʀa</me:facs>
+ <me:dipl>an<ex>n</ex>aʀa</me:dipl>
+ <me:norm>annarra</me:norm>
+</w>
+<w lemma="eitr-kvikendi" me:msa="xNC gN nP cG sI">
+ <me:facs>eıꞇrkyckvenꝺa</me:facs>
+ <me:dipl>eıꞇrkyckvenꝺa</me:dipl>
+ <me:norm>eitrkykkvenda</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<name type="person">
+<w lemma="darius" me:msa="xUA">
+ <me:facs>&drotenl;arı&us;</me:facs>
+ <me:dipl>&drotenl;arı<ex>uſ</ex></me:dipl>
+ <me:norm>Darius</me:norm>
+</w>
+</name>
+<w lemma="konungr" me:msa="xNC gM nS cN sI">
+ <me:facs>k&bar;r</me:facs>
+ <me:dipl>k<ex>onung</ex>r</me:dipl>
+ <me:norm>konungr</me:norm>
+</w>
+<w lemma="hafa" me:msa="xVB fF tPS mIN p3 nS vA">
+ <me:facs>heꝼ&er;</me:facs>
+ <me:dipl>heꝼ<ex>er</ex></me:dipl>
+ <me:norm>hefir</me:norm>
+</w>
+<w lemma="hafa" me:msa="xVB fP tPT vA gN nS cA sI">
+ <me:facs>haꝼꞇ</me:facs>
+ <me:dipl>haꝼꞇ</me:dipl>
+ <me:norm>haft</me:norm>
+</w>
+<lb ed="ms" n="5"/>
+<w lemma="undir" me:msa="xAP yA">
+ <me:facs>unꝺ&er;</me:facs>
+ <me:dipl>unꝺ<ex>er</ex></me:dipl>
+ <me:norm>undir</me:norm>
+</w>
+<w lemma="sik" me:msa="xPE p3 gU nU cA">
+ <me:facs>ſec</me:facs>
+ <me:dipl>ſec</me:dipl>
+ <me:norm>sik</me:norm>
+</w>
+<w lemma="margr" me:msa="xAJ rP gM nP cA sI">
+ <me:facs>marga</me:facs>
+ <me:dipl>marga</me:dipl>
+ <me:norm>marga</me:norm>
+</w>
+<w lemma="skatt-konungr" me:msa="xNC gM nP cA sI">
+ <me:facs>ſcaꞇꞇk&bar;ga</me:facs>
+ <me:dipl>ſcaꞇꞇk<ex>onun</ex>ga</me:dipl>
+ <me:norm>skattkonunga</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="einn" me:msa="xNA gM nS cN sI">
+ <me:facs>eın&bar;</me:facs>
+ <me:dipl>eın<ex>n</ex></me:dipl>
+ <me:norm>Einn</me:norm>
+</w>
+<w lemma="af" me:msa="xAP yD">
+ <me:facs>aꝼ</me:facs>
+ <me:dipl>aꝼ</me:dipl>
+ <me:norm>af</me:norm>
+</w>
+<w lemma="hann" me:msa="xPE p3 gM nS cG">
+ <me:facs>h&bar;s</me:facs>
+ <me:dipl>h<ex>an</ex>s</me:dipl>
+ <me:norm>hans</me:norm>
+</w>
+<w lemma="skatt-konungr" me:msa="xNC gM nP cD sI">
+ <me:facs>ſcaꞇꞇk&bar;go&bar;</me:facs>
+ <me:dipl>ſcaꞇꞇk<ex>onun</ex>go<ex>m</ex></me:dipl>
+ <me:norm>skattkonungum</me:norm>
+</w>
+<w lemma="vera" me:msa="xVB fF tPS mIN p3 nS vA">
+ <me:facs>e&er;</me:facs>
+ <me:dipl>e<ex>r</ex></me:dipl>
+ <me:norm>er</me:norm>
+</w>
+<w lemma="nefna" me:msa="xVB fP tPT vA gM nS cN sI">
+ <me:facs>neꝼnꝺꝛ</me:facs>
+ <me:dipl>neꝼnꝺꝛ</me:dipl>
+ <me:norm>nefndr</me:norm>
+</w>
+<name type="person">
+<w lemma="philippus" me:msa="xUA">
+ <me:facs>p&hscap;llıpp&us;</me:facs>
+ <me:dipl>p&hscap;llıpp<ex>uſ</ex></me:dipl>
+ <me:norm>Philippus</me:norm>
+</w>
+</name>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="hann" me:msa="xPE p3 gM nS cN">
+ <me:facs>h&bar;</me:facs>
+ <me:dipl>h<ex>ann</ex></me:dipl>
+ <me:norm>Hann</me:norm>
+</w>
+<w lemma="ráða" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>reð</me:facs>
+ <me:dipl>reð</me:dipl>
+ <me:norm>réð</me:norm>
+</w>
+<lb ed="ms" n="6"/>
+<w lemma="fyr" me:msa="xAP yD">
+ <me:facs>ꝼyr</me:facs>
+ <me:dipl>ꝼyr</me:dipl>
+ <me:norm>fyr</me:norm>
+</w>
+<name type="place">
+<w lemma="grikk-land" me:msa="xNC gN nS cD sI">
+ <me:facs>grıklanꝺı</me:facs>
+ <me:dipl>grıklanꝺı</me:dipl>
+ <me:norm>Grikklandi</me:norm>
+</w>
+</name>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="dróttning" me:msa="xNC gF nS cN sI">
+ <me:facs>ꝺroꞇꞇnıng</me:facs>
+ <me:dipl>ꝺroꞇꞇnıng</me:dipl>
+ <me:norm>Dróttning</me:norm>
+</w>
+<w lemma="kona" me:msa="xNC gF nS cN sI">
+ <me:facs>kona</me:facs>
+ <me:dipl>kona</me:dipl>
+ <me:norm>kona</me:norm>
+</w>
+<w lemma="hann" me:msa="xPE p3 gM nS cG">
+ <me:facs>h&bar;ſ</me:facs>
+ <me:dipl>h<ex>an</ex>ſ</me:dipl>
+ <me:norm>hans</me:norm>
+</w>
+<w lemma="heita" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>heꞇ</me:facs>
+ <me:dipl>heꞇ</me:dipl>
+ <me:norm>hét</me:norm>
+</w>
+<name type="person">
+<w lemma="olympias" me:msa="xUA">
+ <me:facs>olı&bar;pıaſ</me:facs>
+ <me:dipl>olı<ex>m</ex>pıaſ</me:dipl>
+ <me:norm>Olympias</me:norm>
+</w>
+</name>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="sonr" me:msa="xNC gM nS cA sI">
+ <me:facs>Son</me:facs>
+ <me:dipl>Son</me:dipl>
+ <me:norm>Son</me:norm>
+</w>
+<w lemma="eiga" me:msa="xVB fF tPT mIN p3 nP vA">
+ <me:facs>aꞇꞇo</me:facs>
+ <me:dipl>aꞇꞇo</me:dipl>
+ <me:norm>áttu</me:norm>
+</w>
+<w lemma="sá" me:msa="xDD gN nP cN">
+ <me:facs>þau</me:facs>
+ <me:dipl>þau</me:dipl>
+ <me:norm>þau</me:norm>
+</w>
+<w lemma="sá" me:msa="xDD gM nS cA">
+ <me:facs>þan&bar;</me:facs>
+ <me:dipl>þan<ex>n</ex></me:dipl>
+ <me:norm>þann</me:norm>
+</w>
+<pc>
+ <me:facs></me:facs>
+ <me:dipl></me:dipl>
+ <me:norm>,</me:norm>
+</pc>
+<w lemma="er" me:msa="xRP">
+ <me:facs>e&er;</me:facs>
+ <me:dipl>e<ex>r</ex></me:dipl>
+ <me:norm>er</me:norm>
+</w>
+<name type="person">
+<w lemma="alexander" me:msa="xUA">
+ <me:facs>alex<c type="hyphen">-</c><lb ed="ms" n="7"/>anꝺer</me:facs>
+ <me:dipl>alex<c type="hyphen">-</c><lb ed="ms" n="7"/>anꝺer</me:dipl>
+ <me:norm>Alex<c type="hyphen">-</c><lb ed="ms" n="7"/>ander</me:norm>
+</w>
+</name>
+<w lemma="heita" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>heꞇ</me:facs>
+ <me:dipl>heꞇ</me:dipl>
+ <me:norm>hét</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="sá" me:msa="xDD gM nS cN">
+ <me:facs>Sa</me:facs>
+ <me:dipl>Sa</me:dipl>
+ <me:norm>Sá</me:norm>
+</w>
+<w lemma="maðr" me:msa="xNC gM nS cN sI">
+ <me:facs>maðꝛ</me:facs>
+ <me:dipl>maðꝛ</me:dipl>
+ <me:norm>maðr</me:norm>
+</w>
+<w lemma="vera" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>ꝩar</me:facs>
+ <me:dipl>ꝩar</me:dipl>
+ <me:norm>var</me:norm>
+</w>
+<w lemma="með" me:msa="xAP yD">
+ <me:facs>með</me:facs>
+ <me:dipl>með</me:dipl>
+ <me:norm>með</me:norm>
+</w>
+<w lemma="hirð" me:msa="xNC gF nS cD sI">
+ <me:facs>hırð</me:facs>
+ <me:dipl>hırð</me:dipl>
+ <me:norm>hirð</me:norm>
+</w>
+<w lemma="konungr" me:msa="xNC gM nS cG sD">
+ <me:facs>k&bar;gſenſ</me:facs>
+ <me:dipl>k<ex>onun</ex>gſenſ</me:dipl>
+ <me:norm>konungsins</me:norm>
+</w>
+<pc>
+ <me:facs></me:facs>
+ <me:dipl></me:dipl>
+ <me:norm>,</me:norm>
+</pc>
+<w lemma="er" me:msa="xRP">
+ <me:facs>er</me:facs>
+ <me:dipl>er</me:dipl>
+ <me:norm>er</me:norm>
+</w>
+<name type="person">
+<w lemma="neptanabus" me:msa="xUA">
+ <me:facs>nepꞇanab&us;</me:facs>
+ <me:dipl>nepꞇanab<ex>uſ</ex></me:dipl>
+ <me:norm>Neptanabus</me:norm>
+</w>
+</name>
+<w lemma="hafa" me:msa="xVB fF tPS mIN p3 nS vA">
+ <me:facs>heꝼ&er;</me:facs>
+ <me:dipl>heꝼ<ex>er</ex></me:dipl>
+ <me:norm>hefir</me:norm>
+</w>
+<w lemma="heita" me:msa="xVB fP tPT vA gN nS cA sI">
+ <me:facs>heıꞇıð</me:facs>
+ <me:dipl>heıꞇıð</me:dipl>
+ <me:norm>heitit</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="enn" me:msa="xDD gM nS cN">
+ <me:facs>en&bar;</me:facs>
+ <me:dipl>en<ex>n</ex></me:dipl>
+ <me:norm>Inn</me:norm>
+</w>
+<w lemma="mikill" me:msa="xAJ rS gM nS cN sD">
+ <me:facs>meſꞇı</me:facs>
+ <me:dipl>meſꞇı</me:dipl>
+ <me:norm>mesti</me:norm>
+</w>
+<w lemma="galdra-maðr" me:msa="xNC gM nS cN sI">
+ <me:facs>gallꝺꝛa maðꝛ</me:facs>
+ <me:dipl>gallꝺꝛa maðꝛ</me:dipl>
+ <me:norm>galdramaðr</me:norm>
+</w>
+<lb ed="ms" n="8"/>
+<w lemma="vera" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>ꝩar</me:facs>
+ <me:dipl>ꝩar</me:dipl>
+ <me:norm>var</me:norm>
+</w>
+<w lemma="hann" me:msa="xPE p3 gM nS cN">
+ <me:facs>h&bar;</me:facs>
+ <me:dipl>h<ex>ann</ex></me:dipl>
+ <me:norm>hann</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="af" me:msa="xAP yD">
+ <me:facs>aꝼ</me:facs>
+ <me:dipl>aꝼ</me:dipl>
+ <me:norm>Af</me:norm>
+</w>
+<w lemma="sinn" me:msa="xDP gM nP cD">
+ <me:facs>ſıno&bar;</me:facs>
+ <me:dipl>ſıno<ex>m</ex></me:dipl>
+ <me:norm>sínum</me:norm>
+</w>
+<w lemma="galdr" me:msa="xNC gM nP cD sI">
+ <me:facs>gaulꝺro&bar;</me:facs>
+ <me:dipl>gaulꝺro<ex>m</ex></me:dipl>
+ <me:norm>gǫldrum</me:norm>
+</w>
+<w lemma="ok" me:msa="xCU">
+ <me:facs>&et;</me:facs>
+ <me:dipl><ex>ok</ex></me:dipl>
+ <me:norm>ok</me:norm>
+</w>
+<w lemma="gerning" me:msa="xNC gF nP cD sI">
+ <me:facs>g&er;nıngo&bar;</me:facs>
+ <me:dipl>g<ex>er</ex>nıngo<ex>m</ex></me:dipl>
+ <me:norm>gerningum</me:norm>
+</w>
+<w lemma="fá" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>ꝼek</me:facs>
+ <me:dipl>ꝼek</me:dipl>
+ <me:norm>fekk</me:norm>
+</w>
+<w lemma="hann" me:msa="xPE p3 gM nS cN">
+ <me:facs>h&bar;</me:facs>
+ <me:dipl>h<ex>ann</ex></me:dipl>
+ <me:norm>hann</me:norm>
+</w>
+<w lemma="svá" me:msa="xAV rP">
+ <me:facs>ſva</me:facs>
+ <me:dipl>ſva</me:dipl>
+ <me:norm>svá</me:norm>
+</w>
+<w lemma="gera" me:msa="xVB fP tPT vA gN nS cA sI">
+ <me:facs>goꝛꞇ</me:facs>
+ <me:dipl>goꝛꞇ</me:dipl>
+ <me:norm>gǫrt</me:norm>
+</w>
+<pc>
+ <me:facs></me:facs>
+ <me:dipl></me:dipl>
+ <me:norm>,</me:norm>
+</pc>
+<w lemma="at" me:msa="xCU">
+ <me:facs>aꞇ</me:facs>
+ <me:dipl>aꞇ</me:dipl>
+ <me:norm>at</me:norm>
+</w>
+<w lemma="hann" me:msa="xPE p3 gM nS cN">
+ <me:facs>h&bar;</me:facs>
+ <me:dipl>h<ex>ann</ex></me:dipl>
+ <me:norm>hann</me:norm>
+</w>
+<w lemma="ná" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>naðı</me:facs>
+ <me:dipl>naðı</me:dipl>
+ <me:norm>náði</me:norm>
+</w>
+<w lemma="at" me:msa="xIM">
+ <me:facs>aꞇ</me:facs>
+ <me:dipl>aꞇ</me:dipl>
+ <me:norm>at</me:norm>
+</w>
+<w lemma="sofa" me:msa="xVB fI tPS vA">
+ <me:facs>ſoꝼa</me:facs>
+ <me:dipl>ſoꝼa</me:dipl>
+ <me:norm>sofa</me:norm>
+</w>
+<w lemma="með" me:msa="xAP yD">
+ <me:facs>með</me:facs>
+ <me:dipl>með</me:dipl>
+ <me:norm>með</me:norm>
+</w>
+<w lemma="dróttning" me:msa="xNC gF nS cD sD">
+ <me:facs>ꝺroꞇꞇnıngon&bar;ı</me:facs>
+ <me:dipl>ꝺroꞇꞇnıngon<ex>n</ex>ı</me:dipl>
+ <me:norm>dróttningunni</me:norm>
+</w>
+<w lemma="sjalfr" me:msa="xAJ rP gF nS cD sI">
+ <me:facs>ſıalꝼ&isup;</me:facs>
+ <me:dipl>ſıalꝼ<ex>rı</ex></me:dipl>
+ <me:norm>sjalfri</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<lb ed="ms" n="9"/>
+<w lemma="af" me:msa="xAP yD">
+ <me:facs>aꝼ</me:facs>
+ <me:dipl>aꝼ</me:dipl>
+ <me:norm>Af</me:norm>
+</w>
+<w lemma="sá" me:msa="xDD gN nS cD">
+ <me:facs>þ&isup;</me:facs>
+ <me:dipl>þ<ex>vı</ex></me:dipl>
+ <me:norm>því</me:norm>
+</w>
+<w lemma="trúa" me:msa="xVB fF tPT mIN p3 nP vA">
+ <me:facs>ꞇruðu</me:facs>
+ <me:dipl>ꞇruðu</me:dipl>
+ <me:norm>trúðu</me:norm>
+</w>
+<w lemma="margr" me:msa="xAJ rP gM nP cN sI">
+ <me:facs>marg&er;</me:facs>
+ <me:dipl>marg<ex>er</ex></me:dipl>
+ <me:norm>margir</me:norm>
+</w>
+<name type="person">
+<w lemma="alexander" me:msa="xUA">
+ <me:facs>.&aenl;</me:facs>
+ <me:dipl>&aenl;<ex>lexanꝺrum</ex></me:dipl>
+ <me:norm>Alexander</me:norm>
+</w>
+</name>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl></me:dipl>
+ <me:norm></me:norm>
+</pc>
+<w lemma="hann" me:msa="xPE p3 gM nS cG">
+ <me:facs>h&bar;s</me:facs>
+ <me:dipl>h<ex>an</ex>s</me:dipl>
+ <me:norm>hans</me:norm>
+</w>
+<w lemma="sonr" me:msa="xNC gM nS cA sI">
+ <me:facs>ſon</me:facs>
+ <me:dipl>ſon</me:dipl>
+ <me:norm>son</me:norm>
+</w>
+<w lemma="vera" me:msa="xVB fI tPS vA">
+ <me:facs>v&er;a</me:facs>
+ <me:dipl>v<ex>er</ex>a</me:dipl>
+ <me:norm>vera</me:norm>
+</w>
+<w lemma="en" me:msa="xCU">
+ <me:facs>en</me:facs>
+ <me:dipl>en</me:dipl>
+ <me:norm>en</me:norm>
+</w>
+<w lemma="eigi" me:msa="xAV rP">
+ <me:facs>eıgı</me:facs>
+ <me:dipl>eıgı</me:dipl>
+ <me:norm>eigi</me:norm>
+</w>
+<w lemma="konungr" me:msa="xNC gM nS cG sD">
+ <me:facs>k&bar;gſenſ</me:facs>
+ <me:dipl>k<ex>onun</ex>gſenſ</me:dipl>
+ <me:norm>konungsins</me:norm>
+</w>
+<name type="person">
+<w lemma="philippus" me:msa="xUA">
+ <me:facs>p&hscap;ılıppı</me:facs>
+ <me:dipl>p&hscap;ılıppı</me:dipl>
+ <me:norm>Philippi</me:norm>
+</w>
+</name>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>.</me:norm>
+</pc>
+<w lemma="en" me:msa="xCU">
+ <me:facs>En</me:facs>
+ <me:dipl>En</me:dipl>
+ <me:norm>En</me:norm>
+</w>
+<w lemma="at-hǫfn" me:msa="xNC gF nS cN sI">
+ <me:facs>aꞇhoꝼn</me:facs>
+ <me:dipl>aꞇhoꝼn</me:dipl>
+ <me:norm>athǫfn</me:norm>
+</w>
+<w lemma="hann" me:msa="xPE p3 gM nS cG">
+ <me:facs>h&bar;ſ</me:facs>
+ <me:dipl>h<ex>an</ex>ſ</me:dipl>
+ <me:norm>hans</me:norm>
+</w>
+<w lemma="hafa" me:msa="xVB fF tPS mIN p3 nS vA">
+ <me:facs>heꝼ&er;</me:facs>
+ <me:dipl>heꝼ<ex>er</ex></me:dipl>
+ <me:norm>hefir</me:norm>
+</w>
+<w lemma="sá" me:msa="xDD gN nS cA">
+ <me:facs>þ&bar;</me:facs>
+ <me:dipl>þ<ex>aꞇ</ex></me:dipl>
+ <me:norm>þat</me:norm>
+</w>
+<w lemma="þó" me:msa="xAV rP">
+ <me:facs>þo</me:facs>
+ <me:dipl>þo</me:dipl>
+ <me:norm>þó</me:norm>
+</w>
+<w lemma="síðan" me:msa="xAV rP">
+ <me:facs>ſıðan</me:facs>
+ <me:dipl>ſıðan</me:dipl>
+ <me:norm>síðan</me:norm>
+</w>
+<w lemma="sann-liga" me:msa="xAV rP">
+ <me:facs>ſan&bar;lıga</me:facs>
+ <me:dipl>ſan<ex>n</ex>lıga</me:dipl>
+ <me:norm>sannliga</me:norm>
+</w>
+<lb ed="ms" n="10"/>
+<w lemma="birta" me:msa="xVB fP tPT vA gN nS cA sI">
+ <me:facs>bırꞇ</me:facs>
+ <me:dipl>bırꞇ</me:dipl>
+ <me:norm>birt</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm>,</me:norm>
+</pc>
+<w lemma="at" me:msa="xCU">
+ <me:facs>aꞇ</me:facs>
+ <me:dipl>aꞇ</me:dipl>
+ <me:norm>at</me:norm>
+</w>
+<w lemma="hann" me:msa="xPE p3 gM nS cN">
+ <me:facs>h&bar;</me:facs>
+ <me:dipl>h<ex>ann</ex></me:dipl>
+ <me:norm>hann</me:norm>
+</w>
+<w lemma="vera" me:msa="xVB fF tPT mIN p3 nS vA">
+ <me:facs>ꝩar</me:facs>
+ <me:dipl>ꝩar</me:dipl>
+ <me:norm>var</me:norm>
+</w>
+<w lemma="konungs-sonr" me:msa="xNC gM nS cN sI">
+ <me:facs>k&bar;gſ ſon</me:facs>
+ <me:dipl>k<ex>onun</ex>gſ ſon</me:dipl>
+ <me:norm>konungsson</me:norm>
+</w>
+<w lemma="en" me:msa="xCU">
+ <me:facs>en</me:facs>
+ <me:dipl>en</me:dipl>
+ <me:norm>en</me:norm>
+</w>
+<w lemma="eigi" me:msa="xAV rP">
+ <me:facs>eıgı</me:facs>
+ <me:dipl>eıgı</me:dipl>
+ <me:norm>eigi</me:norm>
+</w>
+<w lemma="hór-barn" me:msa="xNC gN nS cN sI">
+ <me:facs>hoꝛbar&nlrleg;&bar;</me:facs>
+ <me:dipl>hoꝛbar&nlrleg;<ex>n</ex></me:dipl>
+ <me:norm>hórbarn</me:norm>
+</w>
+<pc>
+ <me:facs>.</me:facs>
+ <me:dipl>.</me:dipl>
+ <me:norm></me:norm>
+</pc>
+<w lemma="ok" me:msa="xCU">
+ <me:facs>&et;</me:facs>
+ <me:dipl><ex>ok</ex></me:dipl>
+ <me:norm>ok</me:norm>
+</w>
+<w lemma="sonr" me:msa="xNC gM nS cN sI">
+ <me:facs>ſon</me:facs>
+ <me:dipl>ſon</me:dipl>
+ <me:norm>son</me:norm>
+</w>
+<name type="person">
+<w lemma="neptanabus" me:msa="xUA">
+ <me:facs>nepꞇanabı</me:facs>
+ <me:dipl>nepꞇanabı</me:dipl>
+ <me:norm>Neptanabi</me:norm>
+</w>
+</name>     </p>
+   </div>
+ </body>
+</text>
+</TEI>

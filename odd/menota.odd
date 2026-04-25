@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="https://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_odds.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0"
+    xmlns:me="http://www.menota.org/ns/1.0"
+    xmlns:rng="http://relaxng.org/ns/structure/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>MENOTA ODD for TEI Publisher</title>
+                <author>Martin Roček</author>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Martin Roček</publisher>
+                <availability status="free">
+                    <licence target="https://opensource.org/licenses/MIT">
+                        <p>Distributed under the MIT Licence.</p>
+                    </licence>
+                </availability>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Customisation of TEI Publisher's default ODD to render MENOTA-encoded
+                    Medieval Nordic manuscripts.</p>
+                <p>v0.5.0: extensive coverage update following an audit against
+                    Menota Handbook v3.0/v3.1. Added: me:punct, me:suppressed,
+                    supplied, unclear, gap, add, del, level-aware choice for
+                    sic/corr and orig/reg, seg @type=enc/nb, @ed filtering on
+                    pb/lb/cb, lemma/me:msa tooltip on w, expanded pc categories
+                    (quotes, dashes, ellipsis), head @type=rubric, lb-inside-w
+                    handling, and per-level rendering for unclear/supplied.</p>
+                <p>v0.4.0: styles moved from external CSS into &lt;outputRendition&gt; blocks
+                    so they are compiled into TEI Publisher's auto-generated stylesheet
+                    (the external CSS file was never loaded by TEI Publisher's default
+                    page templates). Whitespace problem fixed at the source by selecting
+                    only me:* children in the &lt;w&gt; and &lt;pc&gt; content parameter, rather
+                    than via CSS workarounds.</p>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <div>
+                <head>MENOTA Customisation</head>
+                <p>Imports teipublisher.odd and adds processing model rules for me:facs, me:dipl,
+                    me:norm, me:pal, me:punct, me:suppressed plus overrides for
+                    choice/w/pc/ex/am/supplied/unclear/gap/ add/del/seg/c and pb/lb/cb. The current
+                    rendering level is selected at runtime via a parameter named <code>level</code>;
+                    default is <code>dipl</code>.</p>
+            </div>
+
+            <schemaSpec ident="menota" source="teipublisher.odd"
+                start="TEI teiCorpus"
+                prefix="menota-"
+                xml:lang="en"
+                targetLang="en"
+                docLang="en">
+
+                <!-- ============================================================== -->
+                <!-- me:facs                                                        -->
+                <!-- ============================================================== -->
+                <elementSpec ident="me:facs" mode="add">
+                    <desc>MENOTA facsimile level: letter-by-letter transcription with
+                        palaeographic detail and unexpanded abbreviations.</desc>
+                    <classes>
+                        <memberOf key="att.global" />
+                    </classes>
+                    <content>
+                        <macroRef key="macro.paraContent" />
+                    </content>
+                    <model behaviour="inline"
+                        predicate="($parameters?level, 'dipl')[1] = 'facs'">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            font-family: Junicode, "Andron Scriptor Web", "Times New Roman", serif;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="omit" />
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- me:dipl (default level)                                        -->
+                <!-- ============================================================== -->
+                <elementSpec ident="me:dipl" mode="add">
+                    <desc>MENOTA diplomatic level: letter-by-letter transcription with
+                        expanded abbreviations.</desc>
+                    <classes>
+                        <memberOf key="att.global" />
+                    </classes>
+                    <content>
+                        <macroRef key="macro.paraContent" />
+                    </content>
+                    <model behaviour="inline"
+                        predicate="($parameters?level, 'dipl')[1] = 'dipl'">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            font-family: Junicode, "Times New Roman", serif;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="omit" />
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- me:norm                                                        -->
+                <!-- ============================================================== -->
+                <elementSpec ident="me:norm" mode="add">
+                    <desc>MENOTA normalised level: standardised orthography.</desc>
+                    <classes>
+                        <memberOf key="att.global" />
+                    </classes>
+                    <content>
+                        <macroRef key="macro.paraContent" />
+                    </content>
+                    <model behaviour="inline"
+                        predicate="($parameters?level, 'dipl')[1] = 'norm'">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            font-family: Georgia, "Times New Roman", serif;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="omit" />
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- me:pal (non-standard, optional palaeographic level)           -->
+                <!-- ============================================================== -->
+                <elementSpec ident="me:pal" mode="add">
+                    <desc>MENOTA palaeographic level (non-standard extension, even
+                        more detailed than facs).</desc>
+                    <classes>
+                        <memberOf key="att.global" />
+                    </classes>
+                    <content>
+                        <macroRef key="macro.paraContent" />
+                    </content>
+                    <model behaviour="inline"
+                        predicate="($parameters?level, 'dipl')[1] = 'pal'">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            font-family: Junicode, "Andron Scriptor Web", "Times New Roman", serif;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="omit" />
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- me:punct                                                       -->
+                <!-- Menota-specific element for "superfluous" punctuation that    -->
+                <!-- exists in the manuscript (e.g. line-final hyphen, scribal     -->
+                <!-- mid-line dot) but should be hidden at the normalised level.   -->
+                <!-- It is a sibling of <w>, not a child. The contained <choice>   -->
+                <!-- holds the per-level readings (often <me:norm/> empty).        -->
+                <!-- See Menota Handbook Encoding Q&A §8-9 and Appendix D.         -->
+                <!-- ============================================================== -->
+                <elementSpec ident="me:punct" mode="add">
+                    <desc>Punctuation in the manuscript that may differ across levels
+                        (typically hidden at the normalised level).</desc>
+                    <classes>
+                        <memberOf key="att.global" />
+                    </classes>
+                    <content>
+                        <macroRef key="macro.paraContent" />
+                    </content>
+                    <model behaviour="inline" cssClass="menota-mepunct">
+                        <param name="content"
+                            value="node()[not(self::text() and not(normalize-space()))]" />
+                        <outputRendition>
+                            margin-left: -0.3em;
+                            color: #666;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- me:suppressed                                                  -->
+                <!-- Replaces me:expunged from earlier versions. Used for text     -->
+                <!-- the scribe marked as deleted but which should still be visible-->
+                <!-- on facs/dipl with a strike-through, and omitted on norm.      -->
+                <!-- See Menota Handbook ch. 16 / Appendix D.                      -->
+                <!-- ============================================================== -->
+                <elementSpec ident="me:suppressed" mode="add">
+                    <desc>Text marked as suppressed (e.g. expunged) by the scribe.</desc>
+                    <classes>
+                        <memberOf key="att.global" />
+                    </classes>
+                    <content>
+                        <macroRef key="macro.paraContent" />
+                    </content>
+                    <!-- Hide entirely at the normalised level. -->
+                    <model behaviour="omit"
+                        predicate="($parameters?level, 'dipl')[1] = 'norm'" />
+                    <!-- On facs/dipl/pal: keep visible but strike through. -->
+                    <model behaviour="inline" cssClass="menota-suppressed">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            text-decoration: line-through;
+                            color: #777;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- choice                                                         -->
+                <!-- Three Menota uses (Handbook ch. 3.13):                         -->
+                <!--   (1) me:facs / me:dipl / me:norm  - level alternatives        -->
+                <!--   (2) sic / corr                   - editorial correction      -->
+                <!--   (3) orig / reg                   - original vs. regularised  -->
+                <!-- For (1) we just need whitespace-filtering; the visibility is  -->
+                <!-- driven by the model on each me:* element.                     -->
+                <!-- For (2) and (3) we map to the active level explicitly so that -->
+                <!-- the right alternative shows on each rendering.                -->
+                <!-- ============================================================== -->
+                <elementSpec ident="choice" mode="change">
+
+                    <!-- (1) Multi-level encoding wrapper. -->
+                    <model behaviour="inline"
+                        predicate="me:facs or me:dipl or me:norm or me:pal">
+                        <param name="content"
+                            value="node()[not(self::text() and not(normalize-space()))]" />
+                    </model>
+
+                    <!-- (2) sic/corr: facs &amp; dipl show the manuscript reading
+                         (sic); norm shows the editorial correction (corr).
+                         Inherits TEI default behaviour for non-Menota use. -->
+                    <model behaviour="inline"
+                        predicate="sic and corr and ($parameters?level, 'dipl')[1] = 'norm'">
+                        <param name="content" value="corr" />
+                    </model>
+                    <model behaviour="inline"
+                        predicate="sic and corr">
+                        <param name="content" value="sic" />
+                        <outputRendition>
+                            color: #993300;
+                        </outputRendition>
+                    </model>
+
+                    <!-- (3) orig/reg: facs &amp; dipl show orig; norm shows reg. -->
+                    <model behaviour="inline"
+                        predicate="orig and reg and ($parameters?level, 'dipl')[1] = 'norm'">
+                        <param name="content" value="reg" />
+                    </model>
+                    <model behaviour="inline"
+                        predicate="orig and reg">
+                        <param name="content" value="orig" />
+                    </model>
+
+                    <!-- abbr/expan fallback (rare in Menota, but possible). -->
+                    <model behaviour="inline"
+                        predicate="abbr and expan and ($parameters?level, 'dipl')[1] = 'facs'">
+                        <param name="content" value="abbr" />
+                    </model>
+                    <model behaviour="inline"
+                        predicate="abbr and expan">
+                        <param name="content" value="expan" />
+                    </model>
+
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- w                                                              -->
+                <!-- The content parameter selects only non-whitespace nodes        -->
+                <!-- (see v0.4.0 notes). We additionally surface @lemma and        -->
+                <!-- @me:msa as a tooltip via the title attribute for hover-       -->
+                <!-- inspection (Handbook ch. 11).                                 -->
+                <!-- ============================================================== -->
+                <elementSpec ident="w" mode="change">
+                    <model behaviour="inline" cssClass="menota-w">
+                        <param name="content"
+                            value="node()[not(self::text() and not(normalize-space()))]" />
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- pc                                                             -->
+                <!--                                                               -->
+                <!-- Categories of punctuation in typography:                       -->
+                <!--   1. Opening - space before, none after: ( [ { « ‹ ¿ ¡ " '   -->
+                <!--   2. Word-internal - no space on either side: - –  (soft)   -->
+                <!--   3. Closing/sentence - no space before, space after:         -->
+                <!--      . , ; : ? ! ) ] } » › … " '                              -->
+                <!--                                                               -->
+                <!-- The XPath idiom string(.) returns the concatenated text       -->
+                <!-- content; we normalize whitespace and check against the        -->
+                <!-- character set for each category.                              -->
+                <!-- ============================================================== -->
+                <elementSpec ident="pc" mode="change">
+
+                    <!-- Category 1: opening punctuation - space before, none after. -->
+                    <model behaviour="inline"
+                        predicate="normalize-space(.) = ('(', '[', '{', '«', '‹', '¿', '¡', '“', '‘', '„', '‚')"
+                        cssClass="menota-pc-open">
+                        <param name="content"
+                            value="node()[not(self::text() and not(normalize-space()))]" />
+                        <outputRendition>
+                            margin-right: -0.3em;
+                        </outputRendition>
+                    </model>
+
+                    <!-- Category 2: word-internal punctuation - no space on either side.
+                         The third character below is U+00AD SOFT HYPHEN. -->
+                    <model behaviour="inline"
+                        predicate="normalize-space(.) = ('-', '–', '&#xAD;')"
+                        cssClass="menota-pc-internal">
+                        <param name="content"
+                            value="node()[not(self::text() and not(normalize-space()))]" />
+                        <outputRendition>
+                            margin-left: -0.3em;
+                            margin-right: -0.3em;
+                        </outputRendition>
+                    </model>
+
+                    <!-- Em/en dash with surrounding space - leave default. -->
+                    <model behaviour="inline"
+                        predicate="normalize-space(.) = ('—')"
+                        cssClass="menota-pc-dash">
+                        <param name="content"
+                            value="node()[not(self::text() and not(normalize-space()))]" />
+                    </model>
+
+                    <!-- Category 3: closing/sentence punctuation - the default. -->
+                    <model behaviour="inline" cssClass="menota-pc-close">
+                        <param name="content"
+                            value="node()[not(self::text() and not(normalize-space()))]" />
+                        <outputRendition>
+                            margin-left: -0.3em;
+                        </outputRendition>
+                    </model>
+
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- ex                                                             -->
+                <!-- Editorial expansion of an abbreviation marker. Convention is  -->
+                <!-- italic. Should NOT appear at the facsimile level (the facs    -->
+                <!-- shows <am> instead). See Handbook ch. 6.                      -->
+                <!-- ============================================================== -->
+                <elementSpec ident="ex" mode="change">
+                    <model behaviour="omit"
+                        predicate="($parameters?level, 'dipl')[1] = 'facs'" />
+                    <model behaviour="inline">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            font-style: italic;
+                            color: #555;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- am                                                             -->
+                <!-- The abbreviation marker as found in the manuscript. Should    -->
+                <!-- NOT appear at the diplomatic or normalised levels.            -->
+                <!-- ============================================================== -->
+                <elementSpec ident="am" mode="change">
+                    <model behaviour="omit"
+                        predicate="($parameters?level, 'dipl')[1] = ('dipl', 'norm')" />
+                    <model behaviour="inline">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            color: #663300;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- supplied                                                       -->
+                <!-- Editorially supplied text (missing in the manuscript). On     -->
+                <!-- facs we omit it (the facs reproduces the manuscript only);   -->
+                <!-- on dipl/norm we display it in square brackets.                -->
+                <!-- See Handbook ch. 6.5.3 and ch. 8.                             -->
+                <!-- ============================================================== -->
+                <elementSpec ident="supplied" mode="change">
+                    <model behaviour="omit"
+                        predicate="($parameters?level, 'dipl')[1] = 'facs'" />
+                    <model behaviour="inline" cssClass="menota-supplied">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            color: #444;
+                            font-style: italic;
+                        </outputRendition>
+                        <outputRendition scope="before">content: "[";</outputRendition>
+                        <outputRendition scope="after">content: "]";</outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- unclear                                                        -->
+                <!-- Text that could not be transcribed with full certainty.       -->
+                <!-- See Handbook ch. 8.                                           -->
+                <!-- ============================================================== -->
+                <elementSpec ident="unclear" mode="change">
+                    <model behaviour="inline" cssClass="menota-unclear">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            color: #888;
+                            text-decoration: underline dotted;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- gap                                                            -->
+                <!-- A lacuna in the manuscript. Renders as bracketed ellipsis.    -->
+                <!-- @extent and @reason can be exposed via the title attribute.   -->
+                <!-- See Handbook ch. 8.                                           -->
+                <!-- ============================================================== -->
+                <elementSpec ident="gap" mode="change">
+                    <model behaviour="inline" cssClass="menota-gap">
+                        <param name="content" value="'[…]'" />
+                        <outputRendition>
+                            color: #888;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- add                                                            -->
+                <!-- Letters / words / passages added by a scribe or corrector.    -->
+                <!-- See Handbook ch. 7.                                           -->
+                <!-- ============================================================== -->
+                <elementSpec ident="add" mode="change">
+                    <model behaviour="inline"
+                        predicate="@place='above' or @place='supralinear'"
+                        cssClass="menota-add-above">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            vertical-align: super;
+                            font-size: 0.8em;
+                            color: #225522;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="inline"
+                        predicate="@place='below' or @place='infralinear'"
+                        cssClass="menota-add-below">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            vertical-align: sub;
+                            font-size: 0.8em;
+                            color: #225522;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="inline" cssClass="menota-add">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            color: #225522;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- del                                                            -->
+                <!-- Letters / words / passages deleted by a scribe or corrector.  -->
+                <!-- Convention: strike-through. See Handbook ch. 7.               -->
+                <!-- ============================================================== -->
+                <elementSpec ident="del" mode="change">
+                    <model behaviour="omit"
+                        predicate="($parameters?level, 'dipl')[1] = 'norm'" />
+                    <model behaviour="inline" cssClass="menota-del">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            text-decoration: line-through;
+                            color: #882222;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- pb / lb / cb                                                   -->
+                <!-- We render only manuscript-level breaks (no @ed, or @ed='ms'). -->
+                <!-- An <lb/> placed inside a <w> (line-internal hyphenation) is   -->
+                <!-- rendered inline as a small marker so the word does not break -->
+                <!-- visually across the screen.                                   -->
+                <!-- ============================================================== -->
+                <elementSpec ident="pb" mode="change">
+                    <model behaviour="omit"
+                        predicate="@ed and @ed != 'ms'" />
+                    <model behaviour="break">
+                        <param name="type" value="'page'" />
+                        <param name="label" value="@n" />
+                        <outputRendition>
+                            display: block;
+                            color: #888;
+                            font-size: 0.85em;
+                            font-style: italic;
+                            margin-top: 1em;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <elementSpec ident="lb" mode="change">
+                    <model behaviour="omit"
+                        predicate="@ed and @ed != 'ms'" />
+                    <!-- Word-internal line break: render as a discreet marker. -->
+                    <model behaviour="inline"
+                        predicate="parent::w or ancestor::w"
+                        cssClass="menota-lb-inword">
+                        <param name="content" value="'¦'" />
+                        <outputRendition>
+                            color: #bbb;
+                            font-size: 0.7em;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="break">
+                        <param name="type" value="'line'" />
+                        <param name="label" value="@n" />
+                        <outputRendition>
+                            display: block;
+                            color: #aaa;
+                            font-size: 0.8em;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <elementSpec ident="cb" mode="change">
+                    <model behaviour="omit"
+                        predicate="@ed and @ed != 'ms'" />
+                    <model behaviour="break">
+                        <param name="type" value="'column'" />
+                        <param name="label" value="@n" />
+                        <outputRendition>
+                            display: block;
+                            color: #888;
+                            font-size: 0.85em;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- seg                                                            -->
+                <!--   @type='lig' - a ligature (Handbook ch. 5)                   -->
+                <!--   @type='enc' - enclitic word fusion (Encoding Q&A §4)        -->
+                <!--   @type='nb'  - "no break" between word parts (ch. 11)        -->
+                <!-- ============================================================== -->
+                <elementSpec ident="seg" mode="change">
+                    <model behaviour="inline" predicate="@type='lig'"
+                        cssClass="menota-seg-lig">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="inline" predicate="@type='enc'"
+                        cssClass="menota-seg-enc">
+                        <param name="content"
+                            value="node()[not(self::text() and not(normalize-space()))]" />
+                    </model>
+                    <model behaviour="inline" predicate="@type='nb'"
+                        cssClass="menota-seg-nb">
+                        <param name="content"
+                            value="node()[not(self::text() and not(normalize-space()))]" />
+                        <outputRendition>
+                            white-space: nowrap;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="inline">
+                        <param name="content" value="." />
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- c                                                              -->
+                <!-- Individual character. @type='hyphen' may be used for a soft  -->
+                <!-- hyphen at line-end which should disappear at the norm level. -->
+                <!-- ============================================================== -->
+                <elementSpec ident="c" mode="change">
+                    <model behaviour="omit"
+                        predicate="@type='hyphen' and ($parameters?level, 'dipl')[1] = 'norm'" />
+                    <model behaviour="inline" predicate="@type='hyphen'">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            color: #888;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="inline">
+                        <param name="content" value="." />
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- head                                                           -->
+                <!-- @type='rubric' is rendered in red (Handbook ch. 3.5).         -->
+                <!-- ============================================================== -->
+                <elementSpec ident="head" mode="change">
+                    <model behaviour="block" predicate="@type='rubric'"
+                        cssClass="menota-head-rubric">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            color: #aa0000;
+                            font-weight: bold;
+                            margin: 0.5em 0;
+                        </outputRendition>
+                    </model>
+                    <model behaviour="block">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            font-weight: bold;
+                            margin: 0.5em 0;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <!-- ============================================================== -->
+                <!-- name / persName / placeName                                    -->
+                <!-- Subtle styling for proper nouns (Handbook ch. 12).            -->
+                <!-- ============================================================== -->
+                <elementSpec ident="name" mode="change">
+                    <model behaviour="inline" cssClass="menota-name">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            font-variant: small-caps;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <elementSpec ident="persName" mode="change">
+                    <model behaviour="inline" cssClass="menota-persName">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            font-variant: small-caps;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+                <elementSpec ident="placeName" mode="change">
+                    <model behaviour="inline" cssClass="menota-placeName">
+                        <param name="content" value="." />
+                        <outputRendition>
+                            font-variant: small-caps;
+                            color: #224477;
+                        </outputRendition>
+                    </model>
+                </elementSpec>
+
+            </schemaSpec>
+        </body>
+    </text>
+</TEI>

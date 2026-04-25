@@ -1,0 +1,108 @@
+<!-- Menota entities (subset for testing the resolver) -->
+<!-- Full file at https://www.menota.org/menota-entities.txt -->
+
+<!-- Built-ins (will be skipped by resolver) -->
+<!ENTITY amp "&#x0026;">
+<!ENTITY lt "&#x003C;">
+<!ENTITY gt "&#x003E;">
+
+<!-- Latin-1 Supplement -->
+<!ENTITY aelig "&#x00E6;">
+
+<!-- Latin Extended-A -->
+<!ENTITY oogon "&#x01EB;">
+<!ENTITY slong "&#x017F;">
+
+<!-- IPA Extensions -->
+<!ENTITY gscap "&#x0262;">
+<!ENTITY iscap "&#x026A;">
+<!ENTITY rscap "&#x0280;">
+<!ENTITY nscap "&#x0274;">
+<!ENTITY mscap "&#x1D0D;">
+
+<!-- Combining Diacritical Marks -->
+<!ENTITY bar "&#x0305;">
+<!ENTITY combacute "&#x0301;">
+<!ENTITY combdot "&#x0307;">
+<!ENTITY er "&#x035B;">
+<!ENTITY ra "&#x1DD3;">
+<!ENTITY us "&#x1DD2;">
+<!ENTITY ur "&#x1DD1;">
+<!ENTITY asup "&#x0363;">
+<!ENTITY esup "&#x0364;">
+<!ENTITY isup "&#x0365;">
+<!ENTITY osup "&#x0366;">
+<!ENTITY usup "&#x0367;">
+<!ENTITY rsup "&#x036C;">
+<!ENTITY tsup "&#x036D;">
+<!ENTITY vsup "&#x036E;">
+
+<!-- Combining Diacritical Marks Supplement -->
+<!ENTITY drotsup "&#x1DD8;">
+<!ENTITY gsup "&#x1DDA;">
+<!ENTITY ksup "&#x1DDC;">
+<!ENTITY lsup "&#x1DDD;">
+<!ENTITY mscapsup "&#x1DDF;">
+<!ENTITY nsup "&#x1DE0;">
+<!ENTITY rscapsup "&#x1DE2;">
+
+<!-- Punctuation -->
+<!ENTITY et "&#x204A;">
+<!ENTITY etslash "&#xF158;">
+<!ENTITY sem "&#xF1AC;">
+
+<!-- Latin Extended-D -->
+<!ENTITY drot "&#xA77A;">
+<!ENTITY fins "&#xA77C;">
+<!ENTITY pbardes "&#xA751;">
+<!ENTITY rrot "&#xA75B;">
+<!ENTITY rum "&#xA75D;">
+
+<!-- PUA: Enlarged minuscules -->
+<!ENTITY aenl "&#xEEE0;">
+<!ENTITY drotenl "&#xEEE4;">
+<!ENTITY henl "&#xEEE9;">
+
+<!-- PUA: Combining marks -->
+<!ENTITY rabar "&#xF1C1;">
+
+<!-- PUA: Composed entities used in AM-519a-4to -->
+<!ENTITY nlrleg "&#x019E;">
+<!ENTITY oslashogon "&#xF132;">
+<!ENTITY eogonacute "&#x1EBD;">
+<!ENTITY vacute "&#x1E7C;">
+<!ENTITY ruslst "&#x2E0D;">
+<!ENTITY luslst "&#x2E0C;">
+<!ENTITY rscapdot "&#xF0CF;">
+
+<!-- Standard punctuation kept as alternates -->
+<!ENTITY sp "&#x0020;">
+<!ENTITY space "&#x0020;">
+
+<!-- Additional entities for AM-519a-4to (added based on content scan) -->
+<!ENTITY barbl "&#x0332;">
+<!ENTITY jacute "&#x01F0;">
+<!ENTITY munc "&#xF01F;">
+<!ENTITY oslashogonacute "&#xF134;">
+<!ENTITY aeligogon "&#xF132;">
+<!ENTITY hscap "&#x029C;">
+<!ENTITY zsup "&#x1DE6;">
+<!ENTITY nenl "&#xEEEF;">
+<!ENTITY langb "&#x27E8;">
+<!ENTITY rangb "&#x27E9;">
+<!ENTITY aoligacute "&#xF0F5;">
+<!ENTITY lenl "&#xEEED;">
+<!ENTITY pflour "&#xA753;">
+<!ENTITY lbrk "&#xA747;">
+<!ENTITY kenl "&#xEEEC;">
+<!ENTITY eng "&#x014B;">
+<!ENTITY benl "&#xEEE1;">
+<!ENTITY punctinterlemn "&#xF1F1;">
+<!ENTITY jnodot "&#x0237;">
+<!ENTITY Vacute "&#x1E7C;">
+<!ENTITY Drot "&#xA779;">
+<!ENTITY menl "&#xEEEE;">
+<!ENTITY uenl "&#xEEF7;">
+<!ENTITY bidotscomposit "&#xF1F2;">
+<!ENTITY combmacr "&#x0304;">
+<!ENTITY eogonsup "&#xF135;">

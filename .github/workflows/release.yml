@@ -1,0 +1,77 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag for the release (e.g. v0.10.0). If empty, uses the version from expath-pkg.xml.'
+        required: false
+        type: string
+      prerelease:
+        description: 'Mark the release as a pre-release'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read package metadata
+        id: pkg
+        run: |
+          ABBREV=$(grep -oE 'abbrev="[^"]+"' expath-pkg.xml | head -n1 | cut -d'"' -f2)
+          VERSION=$(grep -oE 'version="[^"]+"' expath-pkg.xml | head -n1 | cut -d'"' -f2)
+          if [ -z "$ABBREV" ] || [ -z "$VERSION" ]; then
+            echo "Could not extract abbrev/version from expath-pkg.xml" >&2
+            exit 1
+          fi
+          echo "abbrev=$ABBREV"   >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "xar=${ABBREV}-${VERSION}.xar" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve release tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            TAG="${GITHUB_REF#refs/tags/}"
+          elif [ -n "${{ inputs.tag }}" ]; then
+            TAG="${{ inputs.tag }}"
+          else
+            TAG="v${{ steps.pkg.outputs.version }}"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Build .xar
+        run: |
+          chmod +x build.sh
+          ./build.sh
+          ls -la "${{ steps.pkg.outputs.xar }}"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.pkg.outputs.xar }}
+          path: ${{ steps.pkg.outputs.xar }}
+          if-no-files-found: error
+
+      - name: Create GitHub Release
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: ${{ steps.tag.outputs.tag }}
+          generate_release_notes: true
+          prerelease: ${{ inputs.prerelease == true }}
+          files: ${{ steps.pkg.outputs.xar }}
+          fail_on_unmatched_files: true

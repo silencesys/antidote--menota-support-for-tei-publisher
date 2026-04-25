@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>
+        TEI Publisher extension that adds rendering support for MENOTA-encoded
+        manuscripts (me:facs, me:dipl, me:norm, me:pal). Built for the Antidote
+        project (https://antidote.hi.is) so scholars working with MENOTA-encoded
+        sources can publish them through TEI Publisher.
+
+        This is an independent library. It is not affiliated with, endorsed by,
+        or maintained by the MENOTA project (https://menota.org).
+    </description>
+    <author>Martin Roček</author>
+    <website>https://martin.rocek.dev</website>
+    <status>alpha</status>
+    <license>MIT</license>
+    <copyright>true</copyright>
+    <type>library</type>
+    <target>antidote-menota-publisher</target>
+    <prepare>pre-install.xql</prepare>
+    <finish>post-install.xql</finish>
+</meta>

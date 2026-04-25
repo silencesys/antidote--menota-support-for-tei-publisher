@@ -1,0 +1,442 @@
+<html>
+    <!-- Multi-column MENOTA viewer. Click "Add column" to compare
+         transcription levels side by side; one shared pb-navigation
+         moves all columns at once. -->
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"></meta>
+        <link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.ico"></link>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-16.png" sizes="16x16"></link>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-24.png" sizes="24x24"></link>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-32.png" sizes="32x32"></link>
+        <link rel="shortcut icon" type="image/png" href="resources/images/favicon-64.png" sizes="64x64"></link>
+
+        <title data-template="config:app-title"></title>
+        <meta name="description" content="MENOTA document viewer with multi-column grid"></meta>
+        <meta name="pb-template" content="menota-document-grid.html"></meta>
+
+        <link rel="stylesheet" href="resources/css/theme.css"></link>
+        <script type="module" src="pb-components-bundle.js" data-template="pages:load-components"></script>
+        <script type="module" src="resources/js/menota-level-switcher.js"></script>
+
+        <style>
+            @media (min-width: 769px) {
+                .toolbar pb-navigation { display: none; }
+            }
+
+            .menota-grid-toolbar {
+                background: transparent;
+                display: inline-flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.75rem;
+                margin-left: auto;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    Roboto, Helvetica, Arial, sans-serif;
+                vertical-align: middle;
+            }
+
+            .breadcrumbs {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+                padding-right: 1.25rem;
+            }
+
+            .breadcrumbs pb-view {
+                flex: 0 1 auto;
+            }
+
+            .menota-grid-toolbar button {
+                appearance: none;
+                background: #1f2937;
+                color: #fff;
+                border: 0;
+                border-radius: 6px;
+                padding: 0.5rem 0.875rem;
+                font-size: 0.8125rem;
+                font-weight: 600;
+                letter-spacing: 0.02em;
+                cursor: pointer;
+            }
+
+            .menota-grid-toolbar button:disabled {
+                background: #9ca3af;
+                cursor: not-allowed;
+            }
+
+            .menota-grid-toolbar .menota-grid-status {
+                font-size: 0.8125rem;
+                color: #6b7280;
+            }
+
+            .menota-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1px;
+                background: #eaecef;
+                min-height: calc(100vh - 220px);
+            }
+
+            .menota-grid[data-columns="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .menota-grid[data-columns="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .menota-grid[data-columns="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+            @media (max-width: 1024px) {
+                .menota-grid,
+                .menota-grid[data-columns="2"],
+                .menota-grid[data-columns="3"],
+                .menota-grid[data-columns="4"] {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .menota-column {
+                background: #fff;
+                display: flex;
+                flex-direction: column;
+                min-width: 0;
+            }
+
+            .menota-column-header {
+                display: flex;
+                flex-direction: row;
+                align-items: stretch;
+                gap: 0.25rem;
+                border-bottom: 1px solid #eaecef;
+                background: #fafbfc;
+                position: sticky;
+                top: 0;
+                z-index: 1;
+            }
+
+            /* Per-column variant of the switcher: tighter padding, no
+               extra bottom border (the column header already has one). */
+            .menota-column-header menota-level-switcher {
+                flex: 1 1 auto;
+                min-width: 0;
+                --menota-switcher-padding: 0.5rem 0.875rem;
+                --menota-switcher-border-bottom: none;
+                --menota-switcher-bg: transparent;
+                --menota-switcher-gap: 0.625rem;
+                --menota-switcher-label-size: 0.75rem;
+            }
+
+            .menota-column-close {
+                appearance: none;
+                background: transparent;
+                color: #6b7280;
+                border: 1px solid transparent;
+                border-radius: 4px;
+                width: 28px;
+                height: 28px;
+                cursor: pointer;
+                font-size: 1rem;
+                line-height: 1;
+                margin: 0.4rem 0.625rem 0 0;
+                flex-shrink: 0;
+                align-self: center;
+            }
+
+            .menota-column-close:hover {
+                background: #f1f5f9;
+                color: #1f2937;
+            }
+
+            .menota-column-close[hidden] { display: none; }
+
+            .menota-column-body {
+                overflow: auto;
+                padding: 1rem 1.25rem;
+                flex: 1 1 auto;
+            }
+
+            .menota-grid-nav {
+                display: flex;
+                justify-content: space-between;
+                padding: 0.75rem 1.25rem;
+                background: #fff;
+                border-top: 1px solid #eaecef;
+            }
+
+            .menota-grid-nav pb-navigation {
+                --paper-fab-background: #35424b;
+                color: white;
+            }
+        </style>
+    </head>
+
+    <body>
+        <pb-page data-template="pages:pb-page" unresolved="unresolved">
+            <pb-document id="document1" odd="menota" data-template="pages:pb-document"></pb-document>
+            <app-drawer-layout force-narrow="force-narrow">
+                <app-drawer data-template="lib:include" data-template-path="templates/drawer.html"></app-drawer>
+                <app-header-layout>
+                    <app-header slot="header" reveals="reveals" fixed="fixed" effects="waterfall">
+                        <app-toolbar data-template="lib:include" data-template-path="templates/menu.html"></app-toolbar>
+                        <app-toolbar data-template="lib:include" data-template-path="templates/toolbar.html"></app-toolbar>
+                    </app-header>
+
+                    <pb-drawer toggle="tocToggle" class="toc" emit="toc" subscribe="transcription">
+                        <div class="drawer-content">
+                            <h3>
+                                <pb-i18n key="document.contents">Contents</pb-i18n>
+                            </h3>
+                            <pb-load id="toc"
+                                     url="api/document/{doc}/contents?target=transcription&amp;icons=true"
+                                     expand="expand" src="document1" subscribe="toc"
+                                     load-once="load-once">
+                                <pb-i18n key="dialogs.loading">Loading</pb-i18n>
+                            </pb-load>
+                        </div>
+                    </pb-drawer>
+
+                    <section class="breadcrumbs">
+                        <pb-view id="title-view1" src="document1"
+                                 xpath="//teiHeader/fileDesc/titleStmt/title[1]"
+                                 view="single">
+                            <pb-param name="header" value="short"/>
+                        </pb-view>
+                        <span class="menota-grid-toolbar">
+                            <button id="menota-add-column" type="button">+ Add column</button>
+                            <span class="menota-grid-status" id="menota-grid-status"></span>
+                        </span>
+                    </section>
+
+                    <main class="content-body">
+                        <div id="menota-grid" class="menota-grid" data-columns="1"></div>
+                    </main>
+
+                    <div class="menota-grid-nav">
+                        <pb-navigation direction="backward" unit="page"
+                                       emit="transcription" subscribe="transcription">
+                            <paper-fab icon="icons:chevron-left"/>
+                        </pb-navigation>
+                        <pb-navigation direction="forward" unit="page"
+                                       emit="transcription" subscribe="transcription">
+                            <paper-fab icon="icons:chevron-right"/>
+                        </pb-navigation>
+                    </div>
+                </app-header-layout>
+            </app-drawer-layout>
+        </pb-page>
+        <div class="splash"/>
+
+        <!-- Column template; cloned per column with unique ids and a
+             per-column channel. update-url=false because multiple
+             switchers cannot all own ?level=; we serialise into ?levels=. -->
+        <template id="menota-column-template">
+            <section class="menota-column">
+                <div class="menota-column-header">
+                    <menota-level-switcher
+                        value="dipl"
+                        update-url="false"
+                        populate-available="false"
+                        label="Level:">
+                    </menota-level-switcher>
+                    <button type="button" class="menota-column-close"
+                            title="Remove column" aria-label="Remove column">&#x2715;</button>
+                </div>
+                <div class="menota-column-body">
+                    <pb-view src="document1"
+                             column-separator=".tei-cb"
+                             append-footnotes="append-footnotes"
+                             subscribe="transcription"
+                             emit="transcription">
+                        <pb-param name="level" value="dipl"/>
+                    </pb-view>
+                </div>
+            </section>
+        </template>
+
+        <script>
+            // <![CDATA[
+            (function () {
+                "use strict";
+
+                var LEVELS = ["facs", "dipl", "norm", "pal"];
+                var DEFAULT_LEVEL = "dipl";
+                var MAX_COLUMNS = LEVELS.length;
+                var COLUMN_DEFAULTS = ["dipl", "facs", "norm", "pal"];
+
+                var grid = document.getElementById("menota-grid");
+                var template = document.getElementById("menota-column-template");
+                var addBtn = document.getElementById("menota-add-column");
+                var statusEl = document.getElementById("menota-grid-status");
+                var counter = 0;
+
+                // Strip ?level= - pb-view lifts every URL query param into
+                // its API request as user.<name>, which would override every
+                // column's per-column pb-param. Grid owns ?levels= instead.
+                (function stripGlobalLevelParam() {
+                    var url = new URL(window.location.href);
+                    if (url.searchParams.has("level")) {
+                        url.searchParams.delete("level");
+                        window.history.replaceState(
+                            { path: url.toString() }, "", url.toString()
+                        );
+                    }
+                })();
+
+                function getUrlParam(name) {
+                    return new URLSearchParams(window.location.search).get(name);
+                }
+
+                function setUrlParam(name, value) {
+                    var url = new URL(window.location.href);
+                    if (url.searchParams.get(name) !== value) {
+                        url.searchParams.set(name, value);
+                        window.history.replaceState({ path: url.toString() }, '', url.toString());
+                    }
+                }
+
+                function refreshStatus() {
+                    var n = grid.children.length;
+                    statusEl.textContent = n + " column" + (n === 1 ? "" : "s");
+                    addBtn.disabled = n >= MAX_COLUMNS;
+                    grid.setAttribute("data-columns", String(n));
+
+                    var levels = Array.prototype.map.call(
+                        grid.querySelectorAll(".menota-column"),
+                        function (col) { return col.dataset.level; }
+                    );
+                    setUrlParam("levels", levels.join(","));
+                }
+
+                function pickDefaultLevel() {
+                    var taken = Array.prototype.map.call(
+                        grid.querySelectorAll(".menota-column"),
+                        function (col) { return col.dataset.level; }
+                    );
+                    for (var i = 0; i < COLUMN_DEFAULTS.length; i++) {
+                        if (taken.indexOf(COLUMN_DEFAULTS[i]) === -1) {
+                            return COLUMN_DEFAULTS[i];
+                        }
+                    }
+                    return DEFAULT_LEVEL;
+                }
+
+                function toggleCloseButtons() {
+                    var cols = grid.querySelectorAll(".menota-column");
+                    cols.forEach(function (col) {
+                        var btn = col.querySelector(".menota-column-close");
+                        if (!btn) return;
+                        btn.hidden = cols.length <= 1;
+                    });
+                }
+
+                function addColumn(level) {
+                    if (grid.children.length >= MAX_COLUMNS) return null;
+
+                    counter += 1;
+                    var clone = template.content.firstElementChild.cloneNode(true);
+                    var view = clone.querySelector("pb-view");
+                    var switcher = clone.querySelector("menota-level-switcher");
+                    var closeBtn = clone.querySelector(".menota-column-close");
+                    var lvl = level || pickDefaultLevel();
+                    var channel = "menota-col-" + counter;
+
+                    view.id = "menota-view-" + counter;
+                    view.setAttribute("subscribe", channel + " transcription");
+                    view.setAttribute("emit", channel);
+
+                    var param = clone.querySelector('pb-param[name="level"]');
+                    if (param) {
+                        param.setAttribute("value", lvl);
+                        param.value = lvl;
+                    }
+
+                    switcher.setAttribute("channel", channel);
+                    switcher.setAttribute("value", lvl);
+
+                    closeBtn.addEventListener("click", function () {
+                        if (grid.children.length <= 1) return;
+                        clone.remove();
+                        refreshStatus();
+                        toggleCloseButtons();
+                    });
+
+                    // Mirror the user's pick into the column dataset so
+                    // refreshStatus() can serialise into ?levels=.
+                    switcher.addEventListener("menota-level-change", function (ev) {
+                        clone.dataset.level = ev.detail.level;
+                        refreshStatus();
+                    });
+
+                    clone.dataset.level = lvl;
+                    grid.appendChild(clone);
+                    refreshStatus();
+                    toggleCloseButtons();
+
+                    // Kick a forceUpdate once pb-view is upgraded so the
+                    // freshly cloned <pb-param> is applied without racing.
+                    customElements.whenDefined("pb-view").then(function () {
+                        setTimeout(function () {
+                            if (view._features) view._features.level = lvl;
+                            if (typeof view.forceUpdate === "function") {
+                                view.forceUpdate();
+                            }
+                        }, 0);
+                    });
+
+                    return clone;
+                }
+
+                addBtn.addEventListener("click", function () { addColumn(); });
+
+                function restoreFromUrl() {
+                    var levelsParam = getUrlParam("levels");
+                    var legacy = getUrlParam("level");
+                    var initial;
+                    if (levelsParam) {
+                        initial = levelsParam.split(",")
+                            .map(function (s) { return s.trim(); })
+                            .filter(function (s) { return LEVELS.indexOf(s) !== -1; });
+                    } else if (legacy && LEVELS.indexOf(legacy) !== -1) {
+                        initial = [legacy];
+                    } else {
+                        initial = [DEFAULT_LEVEL];
+                    }
+                    if (initial.length === 0) initial = [DEFAULT_LEVEL];
+                    initial.slice(0, MAX_COLUMNS).forEach(function (lvl) {
+                        addColumn(lvl);
+                    });
+                }
+
+                // pb-view auto-loads on connectedCallback. If we insert the
+                // columns before pb-page has resolved the document path,
+                // that first request races the doc resolution and pb-view
+                // briefly renders "failed to load content" before our
+                // forceUpdate retry succeeds. Wait for pb-page-ready so
+                // the very first load works.
+                function whenPageReady(cb) {
+                    var done = false;
+                    var fire = function () {
+                        if (done) return;
+                        done = true;
+                        cb();
+                    };
+                    document.addEventListener("pb-page-ready", fire, { once: true });
+                    customElements.whenDefined("pb-page").then(function () {
+                        var page = document.querySelector("pb-page");
+                        if (page && (page._ready || page.ready)) fire();
+                    });
+                }
+
+                function start() {
+                    whenPageReady(restoreFromUrl);
+                }
+
+                if (window.WebComponents && !window.WebComponents.ready) {
+                    window.addEventListener("WebComponentsReady", start);
+                } else {
+                    start();
+                }
+            })();
+            // ]]>
+        </script>
+    </body>
+</html>
