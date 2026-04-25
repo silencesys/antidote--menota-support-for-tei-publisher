@@ -4,6 +4,6 @@
          abbrev="antidote-menota-publisher"
          version="0.10.2"
          spec="1.0">
-    <title>ANTIDOTE ・ MENOTA support for TEI Publisher</title>
+    <title>ANTIDOTE ・ Menota support for TEI Publisher</title>
     <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="4.0.0"/>
 </package>

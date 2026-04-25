@@ -1,19 +1,19 @@
-# ANTIDOTE ・ MENOTA support for TEI Publisher
+# ANTIDOTE ・ Menota support for TEI Publisher
 
 A TEI Publisher 9 extension that adds rendering support for manuscripts
-encoded according to the [MENOTA](https://menota.org) guidelines.
+encoded according to the [Menota](https://menota.org) guidelines.
 
-Developed by [Martin Roček](https://martin.rocek.dev) for the
-[Antidote](https://antidote.hi.is) project at the University of Iceland.
+Developed by [Martin Roček](https://rocek.dev) for the
+[Antidote](https://antidote.hi.is) project.
 
-> **Not affiliated with MENOTA.** This package is an independent library
-> built to make MENOTA-encoded sources easier to publish through TEI
+> **Not affiliated with Menota.** This package is an independent library
+> built to make Menota-encoded sources easier to publish through TEI
 > Publisher. It is not produced, endorsed by, or maintained by the
-> MENOTA project itself.
+> Menota project itself.
 
 ## What it does
 
-MENOTA-encoded texts use the `me:*` namespace (`me:facs`, `me:dipl`,
+Menota-encoded texts use the `me:*` namespace (`me:facs`, `me:dipl`,
 `me:norm`, `me:pal`) inside `<w>` to represent up to four parallel
 transcription levels of the same word. TEI Publisher's stock ODD has no
 rules for these elements, so multi-level documents render as a
@@ -31,7 +31,7 @@ This package ships:
 - `<menota-level-switcher>` &mdash; a custom element you can drop into
   your own templates.
 - `tools/menota-resolve-entities.py` &mdash; a pre-processing helper
-  that inlines the external entity references MENOTA files rely on,
+  that inlines the external entity references Menota files rely on,
   so eXist can parse them at upload.
 
 ## Requirements
@@ -61,9 +61,9 @@ It then compiles `menota.odd` into XQuery transform modules in the
 host app's `transform/` collection (the same step you'd otherwise
 trigger via *Recompile* in the ODD editor).
 
-## Pre-processing MENOTA files
+## Pre-processing Menota files
 
-MENOTA documents reference an external entity table:
+Menota documents reference an external entity table:
 
 ```xml
 <!ENTITY % Menota_entities SYSTEM 'https://www.menota.org/menota-entities.txt'>
@@ -88,7 +88,7 @@ python3 tools/menota-resolve-entities.py input.xml -o input-resolved.xml \
 
 ### Bundled templates
 
-After installation, open a MENOTA document via:
+After installation, open a Menota document via:
 
 ```
 /exist/apps/<your-tei-app>/<doc-path>?template=menota-document.html
@@ -129,7 +129,7 @@ Attributes (all optional):
 |----------------------|------------------|-----------------------------------------|
 | `channel`            | `transcription`  | pb-events channel to drive              |
 | `value`              | `dipl`           | initial level                           |
-| `label`              | `MENOTA level:`  | pass `label=""` to hide                 |
+| `label`              | `Menota level:`  | pass `label=""` to hide                 |
 | `update-url`         | `true`           | mirrors the choice into `?level=`       |
 | `populate-available` | `true`           | filters to levels actually in the doc   |
 
