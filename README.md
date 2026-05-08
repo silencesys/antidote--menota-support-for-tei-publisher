@@ -1,4 +1,4 @@
-<img src="icon.png" alt="ANTIDOTE Menota icon" width="80" align="right"/>
+<p align="center"><img src="icon.png" alt="ANTIDOTE Menota icon" width="80"/></p>
 
 # ANTIDOTE ・ Menota support for TEI Publisher
 
