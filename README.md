@@ -1,3 +1,5 @@
+<img src="icon.png" alt="ANTIDOTE Menota icon" width="80" align="right"/>
+
 # ANTIDOTE ・ Menota support for TEI Publisher
 
 A TEI Publisher 9 extension that adds rendering support for manuscripts
