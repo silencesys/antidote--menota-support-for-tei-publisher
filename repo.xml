@@ -18,4 +18,5 @@
     <target>antidote-menota-publisher</target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
+    <icon>icon.png</icon>
 </meta>
