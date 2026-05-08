@@ -31,7 +31,7 @@ jobs:
         id: pkg
         run: |
           ABBREV=$(grep -oE 'abbrev="[^"]+"' expath-pkg.xml | head -n1 | cut -d'"' -f2)
-          VERSION=$(grep -oE 'version="[^"]+"' expath-pkg.xml | grep -v '1\.0' | head -n1 | cut -d'"' -f2)
+          VERSION=$(grep -oE 'version="[^"]+"' expath-pkg.xml | head -n1 | cut -d'"' -f2)
           if [ -z "$ABBREV" ] || [ -z "$VERSION" ]; then
             echo "Could not extract abbrev/version from expath-pkg.xml" >&2
             exit 1
