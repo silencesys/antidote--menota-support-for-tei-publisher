@@ -2,7 +2,7 @@
 <package xmlns="http://expath.org/ns/pkg"
          name="https://antidote.hi.is/ns/menota-publisher-lib"
          abbrev="antidote-menota-publisher"
-         version="1.0.4"
+         version="1.0.7"
          spec="1.0">
     <title>ANTIDOTE ・ Menota support for TEI Publisher</title>
     <dependency package="http://existsolutions.com/apps/tei-publisher-lib" semver-min="4.0.0"/>

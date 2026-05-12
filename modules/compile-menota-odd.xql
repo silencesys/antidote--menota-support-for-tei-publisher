@@ -26,7 +26,7 @@ return
                         $mode,
                         "transform",
                         $cfg,
-                        $mode = "web"
+                        true()
                     )
                 } catch * {
                     map { "error": $err:description }

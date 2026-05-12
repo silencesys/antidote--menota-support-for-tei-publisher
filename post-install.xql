@@ -27,41 +27,86 @@ declare function local:install-html($src-col as xs:string,
     xmldb:copy-resource($src-col, $name, $dest-col, $name)
 };
 
+(: XQuery files: same remove-then-copy pattern as local:install-html. :)
+declare function local:install-xql($src-col as xs:string,
+                                   $name as xs:string,
+                                   $dest-col as xs:string) {
+    if ($name = xmldb:get-child-resources($dest-col)) then
+        xmldb:remove($dest-col, $name)
+    else (),
+    xmldb:copy-resource($src-col, $name, $dest-col, $name)
+};
+
+(:~ All package URIs that identify a TEI Publisher host or library across versions. :)
+declare variable $local:tei-publisher-uris := (
+    "http://existsolutions.com/apps/tei-publisher",
+    "http://existsolutions.com/apps/tei-publisher-lib",
+    "http://existsolutions.com/teipublisher",
+    "http://existsolutions.com/teipublisher/v1",
+    "http://existsolutions.com/teipublisher/v2",
+    "http://existsolutions.com/teipublisher/v3",
+    "http://existsolutions.com/teipublisher/v4",
+    "http://existsolutions.com/teipublisher/v5",
+    "http://existsolutions.com/teipublisher/v6",
+    "http://existsolutions.com/teipublisher/v7",
+    "http://existsolutions.com/teipublisher/v8",
+    "http://existsolutions.com/teipublisher/v9",
+    "http://existsolutions.com/teipublisher/v10"
+);
+
 declare function local:find-tei-publisher-apps() as xs:string* {
-    for $app in xmldb:get-child-collections("/db/apps")
-    let $pkg-path := concat("/db/apps/", $app, "/expath-pkg.xml")
-    where doc-available($pkg-path)
-    let $pkg := doc($pkg-path)/expath:package
-    where $pkg/@name != "https://antidote.hi.is/ns/menota-publisher-lib"
-      and (
-        $pkg/@name = "http://existsolutions.com/apps/tei-publisher" or
-        $pkg/expath:dependency[
-            @package = "http://existsolutions.com/apps/tei-publisher" or
-            @package = "http://existsolutions.com/apps/tei-publisher-lib"
-        ]
-      )
-    return concat("/db/apps/", $app)
+    let $all-apps := xmldb:get-child-collections("/db/apps")
+
+    (: Apps identified via their expath-pkg.xml :)
+    let $by-pkg :=
+        for $app in $all-apps
+        let $pkg-path := concat("/db/apps/", $app, "/expath-pkg.xml")
+        where doc-available($pkg-path)
+        let $pkg := doc($pkg-path)/expath:package
+        where $pkg/@name != "https://antidote.hi.is/ns/menota-publisher-lib"
+          and (
+            $pkg/@name = $local:tei-publisher-uris or
+            $pkg/expath:dependency[@package = $local:tei-publisher-uris]
+          )
+        return concat("/db/apps/", $app)
+
+    (: Apps where menota.odd was already installed by a previous run —
+       include them regardless of how their package declares its lineage. :)
+    let $by-odd :=
+        for $app in $all-apps
+        let $app-path := concat("/db/apps/", $app)
+        where $app-path != $local:lib-path
+          and doc-available(concat($app-path, "/odd/menota.odd"))
+          and not($app-path = $by-pkg)
+        return $app-path
+
+    return distinct-values(($by-pkg, $by-odd))
 };
 
 declare function local:install-odd-into($app-path as xs:string) {
     let $odd-collection := concat($app-path, "/odd")
     let $source := concat($local:lib-path, "/odd/menota.odd")
     return
-        if (xmldb:collection-available($odd-collection) and doc-available($source)) then
+        if (not(doc-available($source))) then
+            util:log("WARN", "[antidote-menota-publisher] Source menota.odd missing in lib - cannot install")
+        else
             try {
-                if (doc-available($odd-collection || "/menota.odd")) then
-                    xmldb:remove($odd-collection, "menota.odd")
-                else (),
-                xmldb:copy-resource($local:lib-path || "/odd", "menota.odd",
-                                    $odd-collection, "menota.odd"),
-                util:log("INFO", "[antidote-menota-publisher] Installed menota.odd into " || $odd-collection)
+                let $_mk :=
+                    if (not(xmldb:collection-available($odd-collection))) then
+                        xmldb:create-collection($app-path, "odd")
+                    else ()
+                return (
+                    if (doc-available($odd-collection || "/menota.odd")) then
+                        xmldb:remove($odd-collection, "menota.odd")
+                    else (),
+                    xmldb:copy-resource($local:lib-path || "/odd", "menota.odd",
+                                        $odd-collection, "menota.odd"),
+                    util:log("INFO", "[antidote-menota-publisher] Installed menota.odd into " || $odd-collection)
+                )
             } catch * {
                 util:log("WARN", "[antidote-menota-publisher] Could not copy menota.odd into "
                                   || $odd-collection || ": " || $err:description)
             }
-        else
-            util:log("INFO", "[antidote-menota-publisher] Skipping " || $app-path
-                              || " - no odd/ collection or source not yet present")
 };
 
 declare function local:install-template-into($app-path as xs:string) {
@@ -128,21 +173,19 @@ declare function local:install-template-into($app-path as xs:string) {
             util:log("INFO", "[antidote-menota-publisher] Skipping template install for " || $app-path
                               || " - no templates/ or templates/pages/ collection found"),
 
-        if (xmldb:collection-available(concat($app-path, "/modules")) and util:binary-doc-available($module-source)) then
+        if (xmldb:collection-available(concat($app-path, "/modules"))) then
             try {
                 let $mod-col := concat($app-path, "/modules")
+                let $_ := util:log("INFO", "[antidote-menota-publisher] Installing get-levels.xql into " || $mod-col)
                 return (
-                    if (util:binary-doc-available($mod-col || "/get-levels.xql")) then
-                        xmldb:remove($mod-col, "get-levels.xql")
-                    else (),
-                    xmldb:copy-resource($local:lib-path || "/modules", "get-levels.xql",
-                                        $mod-col, "get-levels.xql"),
+                    local:install-xql($local:lib-path || "/modules", "get-levels.xql", $mod-col),
                     util:log("INFO", "[antidote-menota-publisher] Installed get-levels.xql into " || $mod-col)
                 )
             } catch * {
-                util:log("WARN", "[antidote-menota-publisher] Could not copy get-levels.xql into modules/")
+                util:log("WARN", "[antidote-menota-publisher] Could not install get-levels.xql into modules/: " || $err:description)
             }
-        else (),
+        else
+            util:log("INFO", "[antidote-menota-publisher] Skipping get-levels.xql - no modules/ collection in " || $app-path),
 
         let $js-source := concat($local:lib-path, "/resources/js/menota-level-switcher.js")
         let $resources := concat($app-path, "/resources")
@@ -163,7 +206,41 @@ declare function local:install-template-into($app-path as xs:string) {
                     util:log("WARN", "[antidote-menota-publisher] Could not copy menota-level-switcher.js: "
                                       || $err:description)
                 }
-            else ()
+            else (),
+
+        (: ── CSS files ─────────────────────────────────────────────────
+           menota.css   : always overwritten so the lib version is current.
+           menota-custom.css : copied only on first install so user edits
+                               survive a package upgrade. :)
+        let $css-lib := concat($local:lib-path, "/resources/css")
+        let $css-col := concat($app-path, "/resources/css")
+        return
+            if (xmldb:collection-available($css-col)) then
+                try {
+                    (: menota.css — always replace :)
+                    let $_css :=
+                        if (util:binary-doc-available($css-col || "/menota.css")) then
+                            xmldb:remove($css-col, "menota.css")
+                        else ()
+                    let $_css-copy :=
+                        xmldb:copy-resource($css-lib, "menota.css", $css-col, "menota.css")
+                    let $_css-log :=
+                        util:log("INFO", "[antidote-menota-publisher] Installed menota.css into " || $css-col)
+
+                    (: menota-custom.css — only if absent :)
+                    let $_custom :=
+                        if (not(util:binary-doc-available($css-col || "/menota-custom.css"))) then (
+                            xmldb:copy-resource($css-lib, "menota-custom.css", $css-col, "menota-custom.css"),
+                            util:log("INFO", "[antidote-menota-publisher] Installed starter menota-custom.css into " || $css-col)
+                        ) else
+                            util:log("INFO", "[antidote-menota-publisher] menota-custom.css already exists in " || $css-col || " - skipping")
+                    return ()
+                } catch * {
+                    util:log("WARN", "[antidote-menota-publisher] Could not copy CSS files: "
+                                      || $err:description)
+                }
+            else
+                util:log("INFO", "[antidote-menota-publisher] No " || $css-col || " collection - skipping CSS install")
     )
 };
 
@@ -179,32 +256,24 @@ declare function local:install-compile-script-into($app-path as xs:string) as xs
                               || " - cannot install compile script"),
             ()
         )
-        else if (not(util:binary-doc-available($src))) then (
-            util:log("WARN", "[antidote-menota-publisher] Compile script missing at " || $src),
-            ()
-        )
         else
             try {
+                let $_ := util:log("INFO", "[antidote-menota-publisher] Installing " || $local:compile-script || " into " || $mod-col)
+                (: Remove stale copy from old location (modules/) if present :)
+                let $stale := concat($app-path, "/modules/", $local:compile-script)
                 let $_old :=
-                    let $stale := concat($app-path, "/modules/", $local:compile-script)
-                    return
-                        if (util:binary-doc-available($stale)) then
-                            xmldb:remove(concat($app-path, "/modules"), $local:compile-script)
-                        else ()
-                let $_remove :=
-                    if (util:binary-doc-available($mod-col || "/" || $local:compile-script)) then
-                        xmldb:remove($mod-col, $local:compile-script)
+                    if (local:resource-exists($stale)) then
+                        xmldb:remove(concat($app-path, "/modules"), $local:compile-script)
                     else ()
                 let $_copy :=
-                    xmldb:copy-resource($local:lib-path || "/modules", $local:compile-script,
-                                        $mod-col, $local:compile-script)
+                    local:install-xql($local:lib-path || "/modules", $local:compile-script, $mod-col)
                 let $_log :=
                     util:log("INFO", "[antidote-menota-publisher] Installed " || $local:compile-script
                                       || " into " || $mod-col)
                 return
                     $mod-col || "/" || $local:compile-script
             } catch * {
-                util:log("WARN", "[antidote-menota-publisher] Could not copy compile script: "
+                util:log("WARN", "[antidote-menota-publisher] Could not install compile script: "
                                   || $err:description),
                 ()
             }

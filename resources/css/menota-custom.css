@@ -1,0 +1,55 @@
+/* =====================================================================
+   menota-custom.css — User-defined style overrides for MENOTA viewer.
+
+   This file is loaded AFTER menota.css, so anything you write here
+   takes precedence over the defaults.
+
+   On first install this file is written once and then left alone —
+   reinstalling or upgrading the MENOTA library will never overwrite
+   your edits.
+   ===================================================================== */
+
+
+/* ------------------------------------------------------------------ */
+/* Override level-wrapper typography                                   */
+/* ------------------------------------------------------------------ */
+/* Example: use a different font for the diplomatic level.
+   Remove the comment markers to activate.
+
+.menota-dipl {
+    font-family: 'Noto Serif', Georgia, serif;
+}
+*/
+
+
+/* ------------------------------------------------------------------ */
+/* menota-level-switcher — CSS custom properties                       */
+/*                                                                     */
+/* The level-switcher bar is a Shadow-DOM custom element.              */
+/* Its visual appearance is controlled exclusively through the CSS     */
+/* custom properties listed below.  Set them on the element selector  */
+/* in the light DOM (this file) and they will pierce the shadow.       */
+/* ------------------------------------------------------------------ */
+
+/*
+menota-level-switcher {
+
+    -- Background colour of the switcher bar.
+    --menota-switcher-bg: #fff;
+
+    -- Bottom border drawn below the bar.
+    --menota-switcher-border-bottom: 1px solid #eaecef;
+
+    -- Padding inside the bar (top/bottom left/right shorthand).
+    --menota-switcher-padding: 0.625rem 1.25rem;
+
+    -- Gap between the label and the dropdown.
+    --menota-switcher-gap: 0.875rem;
+
+    -- "MENOTA level:" label font-size.
+    --menota-switcher-label-size: 0.8125rem;
+
+    -- "MENOTA level:" label colour.
+    --menota-switcher-label-color: #6b7280;
+}
+*/
